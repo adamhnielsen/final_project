@@ -1,7 +1,7 @@
 ---
-title: "final_project"
-author: "Adam Nielsen"
-date: "10/27/2020"
+title: "Final Project"
+author: "Adam Nielsen, Chris Loan, Anwesha Guha, Heidi Iwashita, Aaron Rothbart"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:
     highlight: espresso
@@ -11,7 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r librarys}
+```{r libraries}
 library(tidyverse)
 library(janitor)
 library(rio)
@@ -25,5 +25,15 @@ grad <- grad %>%
   clean_names() %>% 
   as_tibble()
 grad
+```
+
+```{r exploring data}
+
+summary(grad$cohort) # needs to be cleaned in new df, change Aug 2006 to 2006
+
+clean_grad <- grad
+clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
+
+clean_grad
 ```
 
