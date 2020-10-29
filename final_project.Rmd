@@ -1,0 +1,29 @@
+---
+title: "final_project"
+author: "Adam Nielsen"
+date: "10/27/2020"
+output: 
+  pdf_document:
+    highlight: espresso
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r librarys}
+library(tidyverse)
+library(janitor)
+library(rio)
+library(here)
+theme_set(theme_minimal())
+```
+
+```{r data import}
+grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
+grad <- grad %>% 
+  clean_names() %>% 
+  as_tibble()
+grad
+```
+
