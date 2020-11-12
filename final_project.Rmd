@@ -49,3 +49,22 @@ clean_grad_2 <- messy_grad %>%
 clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
 ```
 
+```{r}
+clean_grad %>% 
+  filter(demographic == "English Language Learners" | 
+           demographic == "English Proficient Students") %>% 
+  mutate(`English Language Learner Status` = 
+           factor(demographic, 
+                  levels = c("English Language Learners", 
+                      "English Proficient Students"), 
+                  labels = c('Learner', 'Proficient')
+                  )
+         ) %>% group_by(`English Language Learner Status`, borough) %>% 
+  ggplot(aes(x = `English Language Learner Status`, 
+             y = total_grads_percent_of_cohort)) +
+  geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
+       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+       y = 'Percent of total cohort')
+```
+

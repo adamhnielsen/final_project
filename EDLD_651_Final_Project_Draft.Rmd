@@ -1,0 +1,130 @@
+---
+title             : "EDLD 651 Final Project Draft"
+shorttitle        : "Final_Draft"
+
+author: 
+  - name          : "Author"
+    affiliation   : "1"
+
+
+affiliation:
+  - id            : "1"
+    institution   : "University of Oregon"
+
+authornote: |
+  All work done herein represents contributions from all authors equally. Author order is alphabetical. 
+
+abstract: |
+ FILL IN ABSTRACT IF WANTED
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references-final-project.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man, fleqn, noextraspace"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library(papaja)
+library(tidyverse)
+r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc.
+```
+
+# Introduction
+
+We explore proportion of graduation (outcome), across several categorical variables. In particular, we plan to focus on English learners vs. English proficient students.
+
+Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if English learners are successing equally across boroughs, compared to the English proficient students in their boroughs. 
+
+# Methods
+
+Data was taken from INSERT LINK
+
+## Participants
+
+Explain participants' from what we have in data.
+
+
+```{r import_and_clean}
+#clean names done here
+```
+
+
+```{r select_and_filter_vars_of_interest}
+#select() relevant variables to make subsetted dataset
+#filter() out cases that are of interest 
+```
+
+```{r descriptives_of_dataset}
+#descriptive stats (counts of demographics reported by borough in a table() call?) we don't have much info here
+```
+
+## Data analysis
+
+All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` packages to manipulate and visualize the data.
+
+# Results
+
+
+```{r report_results}
+#group_by() 
+#summarize() 
+#report graduation by borough
+#report graduation by english language status
+#report graduation by borough & english learner status
+```
+
+
+```{r graph_results, eval=FALSE, include=FALSE} 
+#Chris Loan would like to do this part: graphing. 
+# my code works assuming we use the "clean_grad" dataset in the `final_project.Rmd` file. You can get it to run there.
+
+#graph outcomes by English language status
+#facet wrap by borough
+#jitter the points so we can see all the years
+#give color to all the years so we can differentiate them
+
+clean_grad %>% 
+  filter(demographic == "English Language Learners" | 
+           demographic == "English Proficient Students") %>% 
+  mutate(`English Language Learner Status` = 
+           factor(demographic, 
+                  levels = c("English Language Learners", 
+                      "English Proficient Students"), 
+                  labels = c('Learner', 'Proficient')
+                  )
+         ) %>% group_by(`English Language Learner Status`, borough) %>% 
+  ggplot(aes(x = `English Language Learner Status`, 
+             y = total_grads_percent_of_cohort)) +
+  geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
+       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+       y = 'Percent of total cohort')
+```
+
+
+# Discussion
+
+Differences appear to be blah by blah for blah. XYZ boroughs should consider blah blah blah, based on the results. Inferential tests are recommended for next directions.
+
+\newpage
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup
