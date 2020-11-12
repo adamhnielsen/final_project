@@ -26,6 +26,7 @@ grad <- grad %>%
   as_tibble()
 grad
 ```
+The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
 
 ```{r exploring data}
 
@@ -35,5 +36,16 @@ clean_grad <- grad
 clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
 clean_grad
+
+messy_grad <- clean_grad %>% 
+  pivot_wider(names_from = borough,
+              values_from = total_cohort)
+clean_grad_2 <- messy_grad %>% 
+  pivot_longer(cols = c("Bronx":"Staten Island"),
+               names_to = "borough",
+               values_to = "total_cohort",
+               values_drop_na = TRUE)
+
+clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
 ```
 
