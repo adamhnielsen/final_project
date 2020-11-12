@@ -108,7 +108,7 @@ clean_grad_2 <- messy_grad %>%
                values_drop_na = TRUE)
 
 clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
-apa_table(clean_grad_2)
+clean_grad_2
 ```
 
 
@@ -137,7 +137,7 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 ```
 
 
-```{r graph_results, eval=FALSE, include=FALSE} 
+```{r graph_results} 
 #Chris Loan would like to do this part: graphing. 
 # my code works assuming we use the "clean_grad" dataset in the `final_project.Rmd` file. You can get it to run there.
 
