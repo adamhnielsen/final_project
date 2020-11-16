@@ -127,6 +127,11 @@ Other tasks that need to be done:
 #filter() out cases that are of interest 
 ```
 
+```{r mutate}
+#mutate() to recode as necessary
+```
+
+
 ```{r descriptives_of_dataset, Anwesha}
 
 # We can do a table of descriptive stats, visuals (bar plots), counts here
