@@ -200,21 +200,26 @@ FILL IN ABSTRACT IF WANTED
 
 We explore proportion of graduation (outcome), across several categorical variables. In particular, we plan to focus on English learners vs.~English proficient students.
 
-Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if English learners are successing equally across boroughs, compared to the English proficient students in their boroughs.
+Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if English learners are succeeding equally across boroughs, compared to the English proficient students in their boroughs.
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
-Data was taken from INSERT LINK
+We retrieved the data collected by the Department of Education from \href{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}{\emph{NYC OpenData}}. It details graduation outcome information for the classes of 2005 to 2010.
+
+Information about variables, how they were measured here
+
+Information about regents examinations here
 
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
 
 Explain participants' from what we have in data.
 
+First, we import and clean our data:
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{#clean names done here}
 \NormalTok{grad <-}\StringTok{ }\KeywordTok{import}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"2005-2010__Graduation_Outcomes_-__By_Borough.csv"}\NormalTok{))}
 \NormalTok{grad <-}\StringTok{ }\NormalTok{grad }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{clean_names}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
@@ -234,35 +239,27 @@ Explain participants' from what we have in data.
 \NormalTok{clean_grad <-}\StringTok{ }\NormalTok{grad}
 \NormalTok{clean_grad}\OperatorTok{$}\NormalTok{cohort <-}\StringTok{  }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{sub}\NormalTok{(}\StringTok{"Aug 2006"}\NormalTok{, }\StringTok{"2006"}\NormalTok{, grad}\OperatorTok{$}\NormalTok{cohort))}
 
-\NormalTok{clean_grad}
+\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(clean_grad))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 385 x 22
-##    demographic borough cohort total_cohort total_grads_n total_grads_per~
-##    <chr>       <chr>    <dbl>        <int>         <int>            <dbl>
-##  1 Borough To~ Bronx     2001        11453          4913             42.9
-##  2 Borough To~ Bronx     2002        12032          5328             44.3
-##  3 Borough To~ Bronx     2003        13632          6389             46.9
-##  4 Borough To~ Bronx     2004        14364          7448             51.9
-##  5 Borough To~ Bronx     2005        15175          8229             54.2
-##  6 Borough To~ Bronx     2006        15579          8524             54.7
-##  7 Borough To~ Bronx     2006        15579          9215             59.2
-##  8 Borough To~ Brookl~   2001        19961          9758             48.9
-##  9 Borough To~ Brookl~   2002        20808         10337             49.7
-## 10 Borough To~ Brookl~   2003        21334         11064             51.9
-## # ... with 375 more rows, and 16 more variables: total_regents_n <int>,
-## #   total_regents_percent_of_cohort <dbl>,
-## #   total_regents_percent_of_grads <dbl>, advanced_regents_n <int>,
-## #   advanced_regents_percent_of_cohort <dbl>,
-## #   advanced_regents_percent_of_grads <dbl>, regents_w_o_advanced_n <int>,
-## #   regents_w_o_advanced_percent_of_cohort <dbl>,
-## #   regents_w_o_advanced_percent_of_grads <dbl>, local_n <int>,
-## #   local_percent_of_cohort <dbl>, local_percent_of_grads <dbl>,
-## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
-## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>
-\end{verbatim}
+\begin{tabular}{l|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+demographic & borough & cohort & total\_cohort & total\_grads\_n & total\_grads\_percent\_of\_cohort & total\_regents\_n & total\_regents\_percent\_of\_cohort & total\_regents\_percent\_of\_grads & advanced\_regents\_n & advanced\_regents\_percent\_of\_cohort & advanced\_regents\_percent\_of\_grads & regents\_w\_o\_advanced\_n & regents\_w\_o\_advanced\_percent\_of\_cohort & regents\_w\_o\_advanced\_percent\_of\_grads & local\_n & local\_percent\_of\_cohort & local\_percent\_of\_grads & still\_enrolled\_n & still\_enrolled\_percent\_of\_cohort & dropped\_out\_n & dropped\_out\_percent\_of\_cohort\\
+\hline
+Borough Total & Bronx & 2001 & 11453 & 4913 & 42.9 & 2644 & 23.1 & 53.8 & 998 & 8.7 & 20.3 & 1646 & 14.4 & 33.5 & 2271 & 19.8 & 46.2 & 3512 & 30.7 & 2438 & 21.3\\
+\hline
+Borough Total & Bronx & 2002 & 12032 & 5328 & 44.3 & 3118 & 25.9 & 58.5 & 992 & 8.2 & 18.6 & 2126 & 17.7 & 39.9 & 2217 & 18.4 & 41.6 & 4047 & 33.6 & 2140 & 17.8\\
+\hline
+Borough Total & Bronx & 2003 & 13632 & 6389 & 46.9 & 3861 & 28.3 & 60.4 & 1255 & 9.2 & 19.6 & 2606 & 19.1 & 40.8 & 2528 & 18.5 & 39.6 & 4258 & 31.2 & 2472 & 18.1\\
+\hline
+Borough Total & Bronx & 2004 & 14364 & 7448 & 51.9 & 4625 & 32.2 & 62.1 & 1395 & 9.7 & 18.7 & 3230 & 22.5 & 43.4 & 2823 & 19.7 & 37.9 & 4169 & 29.0 & 2303 & 16.0\\
+\hline
+Borough Total & Bronx & 2005 & 15175 & 8229 & 54.2 & 5618 & 37.0 & 68.3 & 1544 & 10.2 & 18.8 & 4074 & 26.8 & 49.5 & 2611 & 17.2 & 31.7 & 3943 & 26.0 & 2147 & 14.1\\
+\hline
+Borough Total & Bronx & 2006 & 15579 & 8524 & 54.7 & 6312 & 40.5 & 74.0 & 1558 & 10.0 & 18.3 & 4754 & 30.5 & 55.8 & 2212 & 14.2 & 26.0 & 3824 & 24.5 & 2402 & 15.4\\
+\hline
+\end{tabular}
 
 \hypertarget{pivots}{%
 \subsection{PIVOTS}\label{pivots}}
@@ -274,36 +271,27 @@ The data we are starting with are already tidy, but for the purposes of demonstr
 \NormalTok{messy_grad <-}\StringTok{ }\NormalTok{clean_grad }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{pivot_wider}\NormalTok{(}\DataTypeTok{names_from =}\NormalTok{ borough,}
               \DataTypeTok{values_from =}\NormalTok{ total_cohort)}
-\NormalTok{messy_grad}
+\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(messy_grad))}
 \end{Highlighting}
 \end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 385 x 25
-##    demographic cohort total_grads_n total_grads_per~ total_regents_n
-##    <chr>        <dbl>         <int>            <dbl>           <int>
-##  1 Borough To~   2001          4913             42.9            2644
-##  2 Borough To~   2002          5328             44.3            3118
-##  3 Borough To~   2003          6389             46.9            3861
-##  4 Borough To~   2004          7448             51.9            4625
-##  5 Borough To~   2005          8229             54.2            5618
-##  6 Borough To~   2006          8524             54.7            6312
-##  7 Borough To~   2006          9215             59.2            6605
-##  8 Borough To~   2001          9758             48.9            6177
-##  9 Borough To~   2002         10337             49.7            7050
-## 10 Borough To~   2003         11064             51.9            7711
-## # ... with 375 more rows, and 20 more variables:
-## #   total_regents_percent_of_cohort <dbl>,
-## #   total_regents_percent_of_grads <dbl>, advanced_regents_n <int>,
-## #   advanced_regents_percent_of_cohort <dbl>,
-## #   advanced_regents_percent_of_grads <dbl>, regents_w_o_advanced_n <int>,
-## #   regents_w_o_advanced_percent_of_cohort <dbl>,
-## #   regents_w_o_advanced_percent_of_grads <dbl>, local_n <int>,
-## #   local_percent_of_cohort <dbl>, local_percent_of_grads <dbl>,
-## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
-## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>, Bronx <int>,
-## #   Brooklyn <int>, Manhattan <int>, Queens <int>, `Staten Island` <int>
-\end{verbatim}
+\begin{tabular}{l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+demographic & cohort & total\_grads\_n & total\_grads\_percent\_of\_cohort & total\_regents\_n & total\_regents\_percent\_of\_cohort & total\_regents\_percent\_of\_grads & advanced\_regents\_n & advanced\_regents\_percent\_of\_cohort & advanced\_regents\_percent\_of\_grads & regents\_w\_o\_advanced\_n & regents\_w\_o\_advanced\_percent\_of\_cohort & regents\_w\_o\_advanced\_percent\_of\_grads & local\_n & local\_percent\_of\_cohort & local\_percent\_of\_grads & still\_enrolled\_n & still\_enrolled\_percent\_of\_cohort & dropped\_out\_n & dropped\_out\_percent\_of\_cohort & Bronx & Brooklyn & Manhattan & Queens & Staten Island\\
+\hline
+Borough Total & 2001 & 4913 & 42.9 & 2644 & 23.1 & 53.8 & 998 & 8.7 & 20.3 & 1646 & 14.4 & 33.5 & 2271 & 19.8 & 46.2 & 3512 & 30.7 & 2438 & 21.3 & 11453 & NA & NA & NA & NA\\
+\hline
+Borough Total & 2002 & 5328 & 44.3 & 3118 & 25.9 & 58.5 & 992 & 8.2 & 18.6 & 2126 & 17.7 & 39.9 & 2217 & 18.4 & 41.6 & 4047 & 33.6 & 2140 & 17.8 & 12032 & NA & NA & NA & NA\\
+\hline
+Borough Total & 2003 & 6389 & 46.9 & 3861 & 28.3 & 60.4 & 1255 & 9.2 & 19.6 & 2606 & 19.1 & 40.8 & 2528 & 18.5 & 39.6 & 4258 & 31.2 & 2472 & 18.1 & 13632 & NA & NA & NA & NA\\
+\hline
+Borough Total & 2004 & 7448 & 51.9 & 4625 & 32.2 & 62.1 & 1395 & 9.7 & 18.7 & 3230 & 22.5 & 43.4 & 2823 & 19.7 & 37.9 & 4169 & 29.0 & 2303 & 16.0 & 14364 & NA & NA & NA & NA\\
+\hline
+Borough Total & 2005 & 8229 & 54.2 & 5618 & 37.0 & 68.3 & 1544 & 10.2 & 18.8 & 4074 & 26.8 & 49.5 & 2611 & 17.2 & 31.7 & 3943 & 26.0 & 2147 & 14.1 & 15175 & NA & NA & NA & NA\\
+\hline
+Borough Total & 2006 & 8524 & 54.7 & 6312 & 40.5 & 74.0 & 1558 & 10.0 & 18.3 & 4754 & 30.5 & 55.8 & 2212 & 14.2 & 26.0 & 3824 & 24.5 & 2402 & 15.4 & 15579 & NA & NA & NA & NA\\
+\hline
+\end{tabular}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -724,6 +712,32 @@ Male & Staten Island & 2,006.00 & 2413 & 1725 & 71.50 & 1458 & 60.40 & 84.50 & 5
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(clean_grad_}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{l|l|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r|r}
+\hline
+demographic & borough & cohort & total\_cohort & total\_grads\_n & total\_grads\_percent\_of\_cohort & total\_regents\_n & total\_regents\_percent\_of\_cohort & total\_regents\_percent\_of\_grads & advanced\_regents\_n & advanced\_regents\_percent\_of\_cohort & advanced\_regents\_percent\_of\_grads & regents\_w\_o\_advanced\_n & regents\_w\_o\_advanced\_percent\_of\_cohort & regents\_w\_o\_advanced\_percent\_of\_grads & local\_n & local\_percent\_of\_cohort & local\_percent\_of\_grads & still\_enrolled\_n & still\_enrolled\_percent\_of\_cohort & dropped\_out\_n & dropped\_out\_percent\_of\_cohort\\
+\hline
+Borough Total & Bronx & 2001 & 11453 & 4913 & 42.9 & 2644 & 23.1 & 53.8 & 998 & 8.7 & 20.3 & 1646 & 14.4 & 33.5 & 2271 & 19.8 & 46.2 & 3512 & 30.7 & 2438 & 21.3\\
+\hline
+Borough Total & Bronx & 2002 & 12032 & 5328 & 44.3 & 3118 & 25.9 & 58.5 & 992 & 8.2 & 18.6 & 2126 & 17.7 & 39.9 & 2217 & 18.4 & 41.6 & 4047 & 33.6 & 2140 & 17.8\\
+\hline
+Borough Total & Bronx & 2003 & 13632 & 6389 & 46.9 & 3861 & 28.3 & 60.4 & 1255 & 9.2 & 19.6 & 2606 & 19.1 & 40.8 & 2528 & 18.5 & 39.6 & 4258 & 31.2 & 2472 & 18.1\\
+\hline
+Borough Total & Bronx & 2004 & 14364 & 7448 & 51.9 & 4625 & 32.2 & 62.1 & 1395 & 9.7 & 18.7 & 3230 & 22.5 & 43.4 & 2823 & 19.7 & 37.9 & 4169 & 29.0 & 2303 & 16.0\\
+\hline
+Borough Total & Bronx & 2005 & 15175 & 8229 & 54.2 & 5618 & 37.0 & 68.3 & 1544 & 10.2 & 18.8 & 4074 & 26.8 & 49.5 & 2611 & 17.2 & 31.7 & 3943 & 26.0 & 2147 & 14.1\\
+\hline
+Borough Total & Bronx & 2006 & 15579 & 8524 & 54.7 & 6312 & 40.5 & 74.0 & 1558 & 10.0 & 18.3 & 4754 & 30.5 & 55.8 & 2212 & 14.2 & 26.0 & 3824 & 24.5 & 2402 & 15.4\\
+\hline
+\end{tabular}
+
+Other tasks that need to be done:
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \CommentTok{#select() relevant variables to make subsetted dataset}
 \CommentTok{#filter() out cases that are of interest }
 \end{Highlighting}
@@ -731,7 +745,12 @@ Male & Staten Island & 2,006.00 & 2413 & 1725 & 71.50 & 1458 & 60.40 & 84.50 & 5
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{#descriptive stats (counts of demographics reported by borough in a table() call?) we don't have much info here}
+\CommentTok{# We can do a table of descriptive stats, visuals (bar plots), counts here}
+
+\CommentTok{# We can also look at the following to get a general sense of the data:}
+\CommentTok{# - total cohorts/grads by borough}
+\CommentTok{# - grad percentage by demographic, then can do a deeper dive by borough}
+\CommentTok{# - the above two repeated with dropout rate}
 \end{Highlighting}
 \end{Shaded}
 

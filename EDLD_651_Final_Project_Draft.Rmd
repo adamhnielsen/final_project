@@ -40,6 +40,7 @@ footnotelist      : no
 linenumbers       : yes
 mask              : no
 draft             : no
+url_color         : blue
 
 documentclass     : "apa6"
 classoption       : "man, fleqn, noextraspace"
@@ -57,6 +58,7 @@ library(tidyverse)
 library(janitor)
 library(rio)
 library(here)
+library(knitr)
 theme_set(theme_minimal())
 r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc.
 ```
@@ -65,19 +67,23 @@ r_refs("r-references-final-project.bib") # we'll have to actually add this if we
 
 We explore proportion of graduation (outcome), across several categorical variables. In particular, we plan to focus on English learners vs. English proficient students.
 
-Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if English learners are successing equally across boroughs, compared to the English proficient students in their boroughs. 
+Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if English learners are succeeding equally across boroughs, compared to the English proficient students in their boroughs. 
 
 # Methods
 
-Data was taken from INSERT LINK
+We retrieved the data collected by the Department of Education from [*NYC OpenData*](https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek). It details graduation outcome information for the classes of 2005 to 2010.
+
+Information about variables, how they were measured here
+
+Information about regents examinations here
 
 ## Participants
 
 Explain participants' from what we have in data.
 
-
+First, we import and clean our data:
 ```{r import_and_clean}
-#clean names done here
+
 grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
 grad <- grad %>% 
   clean_names() %>% 
@@ -88,7 +94,7 @@ summary(grad$cohort) # needs to be cleaned in new df, change Aug 2006 to 2006
 clean_grad <- grad
 clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
-clean_grad
+kable(head(clean_grad)) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
 ```
 
 ## PIVOTS
@@ -99,7 +105,7 @@ The data we are starting with are already tidy, but for the purposes of demonstr
 messy_grad <- clean_grad %>% 
   pivot_wider(names_from = borough,
               values_from = total_cohort)
-messy_grad
+kable(head(messy_grad))
 
 clean_grad_2 <- messy_grad %>% 
   pivot_longer(cols = c("Bronx":"Staten Island"),
@@ -109,16 +115,26 @@ clean_grad_2 <- messy_grad %>%
 
 clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
 apa_table(clean_grad_2)
+
+kable(head(clean_grad_2))
 ```
 
+
+Other tasks that need to be done:
 
 ```{r select_and_filter_vars_of_interest}
 #select() relevant variables to make subsetted dataset
 #filter() out cases that are of interest 
 ```
 
-```{r descriptives_of_dataset}
-#descriptive stats (counts of demographics reported by borough in a table() call?) we don't have much info here
+```{r descriptives_of_dataset, Anwesha}
+
+# We can do a table of descriptive stats, visuals (bar plots), counts here
+
+# We can also look at the following to get a general sense of the data:
+# - total cohorts/grads by borough
+# - grad percentage by demographic, then can do a deeper dive by borough
+# - the above two repeated with dropout rate
 ```
 
 ## Data analysis
