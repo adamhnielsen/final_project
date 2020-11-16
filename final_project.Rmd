@@ -1,6 +1,6 @@
 ---
 title: "Final Project"
-author: "Adam Nielsen, Chris Loan, Anwesha Guha, Heidi Iwashita, Aaron Rothbart"
+author: "Anwesha Guha, Heidi Iwashita, Chris Loan, Adam Nielsen & Aaron Rothbart"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   pdf_document:
@@ -65,6 +65,6 @@ clean_grad %>%
   geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + 
   labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
        subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
-       y = 'Percent of total cohort')
+       y = 'Percent of Total Cohort')
 ```
 

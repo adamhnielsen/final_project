@@ -122,12 +122,12 @@ kable(head(clean_grad_2))
 
 Other tasks that need to be done:
 
-```{r select_and_filter_vars_of_interest}
+```{r select_and_filter_vars_of_interest, Heidi}
 #select() relevant variables to make subsetted dataset
 #filter() out cases that are of interest 
 ```
 
-```{r mutate}
+```{r mutate, Aaron}
 #mutate() to recode as necessary
 ```
 
