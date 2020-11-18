@@ -7,6 +7,8 @@ output:
     highlight: espresso
 ---
 
+Papaya may be more useful here when knitting a final product. 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -58,8 +60,8 @@ clean_grad %>%
                   levels = c("English Language Learners", 
                       "English Proficient Students"), 
                   labels = c('Learner', 'Proficient')
-                  )
-         ) %>% group_by(`English Language Learner Status`, borough) %>% 
+                  ) #I would move this parenthesis up a line to avoid confusion.
+         ) %>% group_by(`English Language Learner Status`, borough) %>% #I would move the parenthesis at the beginning of this line of code up one line along with the pipe to avoid any confusion. 
   ggplot(aes(x = `English Language Learner Status`, 
              y = total_grads_percent_of_cohort)) +
   geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + 
