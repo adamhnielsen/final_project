@@ -52,7 +52,10 @@ header-includes:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      #fig.height = 8,     #Do we want these?
+                      #fig.width = 8
+                      )
 library(papaja)
 library(tidyverse)
 library(janitor)

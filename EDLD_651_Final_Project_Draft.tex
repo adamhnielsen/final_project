@@ -239,7 +239,7 @@ First, we import and clean our data:
 \NormalTok{clean_grad <-}\StringTok{ }\NormalTok{grad}
 \NormalTok{clean_grad}\OperatorTok{$}\NormalTok{cohort <-}\StringTok{  }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{sub}\NormalTok{(}\StringTok{"Aug 2006"}\NormalTok{, }\StringTok{"2006"}\NormalTok{, grad}\OperatorTok{$}\NormalTok{cohort))}
 
-\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(clean_grad))}
+\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(clean_grad)) }\CommentTok{#need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display}
 \end{Highlighting}
 \end{Shaded}
 
@@ -740,6 +740,12 @@ Other tasks that need to be done:
 \begin{Highlighting}[]
 \CommentTok{#select() relevant variables to make subsetted dataset}
 \CommentTok{#filter() out cases that are of interest }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#mutate() to recode as necessary}
 \end{Highlighting}
 \end{Shaded}
 
