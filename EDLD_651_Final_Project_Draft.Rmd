@@ -117,62 +117,52 @@ clean_grad <- messy_grad %>%
 clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
 apa_table(clean_grad)
 
-kable(head(clean_grad))
-```
-
-Now that we have tidied the entire dataset, we can focus on our variables of interest.
-
-```{r select_and_filter_vars_of_interest, Heidi}
-dropout_percent <- filter(clean_grad, demographic == "English Language Learners" |
-                demographic == "English Proficient Students") %>% 
-  select(3, 1, 2, 6, 22)
-```
-
-```{r mutate, Aaron}
-names(clean_grad)
 head(clean_grad)
-clean_grad$demographic
+```
 
-all_comp <- clean_grad %>%
-  select(c(1, 4, 5, 6, 17:22)) %>%
+Now that we have tidied the entire dataset, we can focus on our variables of interest: enrollment and graduation for specific boroughs, cohorts and demographics.
+
+```{r select, filter, mutate}
+
+filtered_grad <- clean_grad %>%
+  select(c(1:6, 16:22)) %>%
   filter(demographic == "English Language Learners" |
          demographic == "English Proficient Students" |
          demographic == "Special Education" |
          demographic == "General Education")
 
-all_comp <- all_comp %>%
-  group_by(demographic) %>%
-  mutate(total_n = total_grads_n + dropped_out_n + still_enrolled_n)
+new_grad <- filtered_grad %>%
+  mutate(unclassified_n = total_cohort - (total_grads_n + dropped_out_n + still_enrolled_n),
+         unclassified_percent_of_cohort = round(unclassified_n/total_cohort * 100, 1))
 
-dropped_out <- all_comp %>%
-  group_by(demographic) %>%
-  mutate(pct_dropped_out_grad = dropped_out_n / total_n) %>%
-  summarize(mean_dropped_pct = mean(pct_dropped_out_grad))
-
-still_enrolled <- all_comp %>%
-  group_by(demographic) %>%
-  mutate(pct_still_enrolled = still_enrolled_n / total_n) %>%
-  summarize(mean_still_enrolled_pct = mean(pct_still_enrolled))
-
-graduated <- all_comp %>%
-  group_by(demographic) %>%
-  mutate(pct_total_grad = total_grads_n / total_n) %>%
-  summarize(mean_total_grad = mean(pct_total_grad))
-
-join1 <- left_join(dropped_out, still_enrolled)
-
-all_comparison_smy <- left_join(join1, graduated)
-
-kable(all_comparison_smy)
 ```
 
 
-```{r descriptives_of_dataset, Anwesha}
+```{r summary stats}
+head(new_grad)
+
+# group by relevant demographics (ELL & EP, GE & SPED)
+new_grad %>% 
+  group_by(demographic) %>% 
+  summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified = mean(unclassified_percent_of_cohort))
+
+# group by borough, look at % of local students
+new_grad %>% 
+  group_by(borough, cohort) %>% 
+  summarize(mean_local = mean(local_percent_of_cohort))
+```
+
+
+
+```{r descriptives_of_dataset}
 
 # We can do a table of descriptive stats, visuals (bar plots), counts here
 
 # We can also look at the following to get a general sense of the data:
-# - total cohorts/grads by borough
+# - total cohorts/grads, facet_wrap by borough
 # - grad percentage by demographic, then can do a deeper dive by borough
 # - the above two repeated with dropout rate
 ```
@@ -218,6 +208,8 @@ clean_grad %>%
   labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
        subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
        y = 'Percent of total cohort')
+
+
 ```
 
 
