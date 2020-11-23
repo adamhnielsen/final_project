@@ -131,7 +131,75 @@ dropout_percent <- filter(clean_grad_2, demographic == "English Language Learner
 ```
 
 ```{r mutate, Aaron}
-#mutate() to recode as necessary
+names(clean_grad)
+
+head(clean_grad)
+
+clean_grad$demographic
+
+ 
+
+all_comp <- clean_grad %>%
+
+  select(c(1, 5, 6, 17:22)) %>%
+
+  filter(demographic == "English Language Learners" |
+
+         demographic == "English Proficient Students" |
+
+         demographic == "Special Education" |
+
+         demographic == "General Education")
+
+ 
+
+all_comp <- all_comp %>%
+
+  group_by(demographic) %>%
+
+  mutate(total_n = total_grads_n + dropped_out_n + still_enrolled_n)
+
+ 
+
+dropped_out <- all_comp %>%
+
+  group_by(demographic) %>%
+
+  mutate(pct_dropped_out_grad = dropped_out_n / total_n) %>%
+
+  summarize(mean_dropped_pct = mean(pct_dropped_out_grad))
+
+ 
+
+still_enrolled <- all_comp %>%
+
+  group_by(demographic) %>%
+
+  mutate(pct_still_enrolled = still_enrolled_n / total_n) %>%
+
+  summarize(mean_still_enrolled_pct = mean(pct_still_enrolled))
+
+ 
+
+graduated <- all_comp %>%
+
+  group_by(demographic) %>%
+
+  mutate(pct_total_grad = total_grads_n / total_n) %>%
+
+  summarize(mean_total_grad = mean(pct_total_grad))
+
+ 
+
+join1 <- left_join(dropped_out, still_enrolled)
+
+ 
+
+all_comparison_smy <- left_join(join1, graduated)
+
+ 
+
+kable(all_comparison_smy)
 ```
 
 
