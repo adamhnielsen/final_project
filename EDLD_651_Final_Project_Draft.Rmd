@@ -53,9 +53,8 @@ header-includes:
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
-                      #fig.height = 8,     #Do we want these?
-                      #fig.width = 8
-                      )
+                      fig.height = 8,    
+                      fig.width = 8)
 library(papaja)
 library(tidyverse)
 library(janitor)
@@ -126,8 +125,9 @@ kable(head(clean_grad_2))
 Other tasks that need to be done:
 
 ```{r select_and_filter_vars_of_interest, Heidi}
-#select() relevant variables to make subsetted dataset
-#filter() out cases that are of interest 
+dropout_percent <- filter(clean_grad_2, demographic == "English Language Learners" |
+                demographic == "English Proficient Students") %>% 
+  select(2, 1, 2, 6, 22)
 ```
 
 ```{r mutate, Aaron}
@@ -196,7 +196,6 @@ Differences appear to be blah by blah for blah. XYZ boroughs should consider bla
 \newpage
 
 # References
-
 \begingroup
 \setlength{\parindent}{-0.5in}
 \setlength{\leftskip}{0.5in}
