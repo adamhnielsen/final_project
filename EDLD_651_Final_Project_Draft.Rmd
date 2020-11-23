@@ -160,7 +160,6 @@ borough_data <- new_grad %>%
 ```
 
 
-
 ```{r descriptives_of_dataset}
 demographic_bar <- demographic_data %>% 
   pivot_longer(cols = contains("mean"),
@@ -169,7 +168,7 @@ demographic_bar <- demographic_data %>%
                names_sep = "_")
 
 # which makes more sense?
-# option 1
+# Option 1 - cohort as factor(), faceted by characteristic
 demographic_bar %>% 
   ggplot(aes(fill = factor(cohort), x = demographic, y = pct)) +
   geom_bar(position = "stack", stat = "identity") +
@@ -177,7 +176,7 @@ demographic_bar %>%
   facet_wrap(~characteristic) +
   scale_fill_viridis_d()
 
-# option 2
+# Option 2 - cohort and characteristic switched
 demographic_bar %>% 
   ggplot(aes(fill = characteristic, x = demographic, y = pct)) +
   geom_bar(position = "stack", stat = "identity") +
