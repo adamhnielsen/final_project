@@ -142,24 +142,49 @@ new_grad <- filtered_grad %>%
 head(new_grad)
 
 # group by relevant demographics (ELL & EP, GE & SPED)
-new_grad %>% 
-  group_by(demographic) %>% 
+demographic_data <- new_grad %>% 
+  group_by(demographic, cohort) %>% 
   summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
             mean_dropout_pct = mean(dropped_out_percent_of_cohort),
             mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
-            mean_unclassified = mean(unclassified_percent_of_cohort))
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
 
 # group by borough, look at % of local students
-new_grad %>% 
+borough_data <- new_grad %>% 
   group_by(borough, cohort) %>% 
-  summarize(mean_local = mean(local_percent_of_cohort))
+  summarize(mean_local = mean(local_percent_of_cohort),
+            mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
 ```
 
 
 
 ```{r descriptives_of_dataset}
+demographic_bar <- demographic_data %>% 
+  pivot_longer(cols = contains("mean"),
+               names_to = c("characteristic", ".value"),
+               names_prefix = "mean_",
+               names_sep = "_")
 
-# We can do a table of descriptive stats, visuals (bar plots), counts here
+# which makes more sense?
+# option 1
+demographic_bar %>% 
+  ggplot(aes(fill = factor(cohort), x = demographic, y = pct)) +
+  geom_bar(position = "stack", stat = "identity") +
+  theme(axis.text.x = element_text(angle = 60)) +
+  facet_wrap(~characteristic) +
+  scale_fill_viridis_d()
+
+# option 2
+demographic_bar %>% 
+  ggplot(aes(fill = characteristic, x = demographic, y = pct)) +
+  geom_bar(position = "stack", stat = "identity") +
+  theme(axis.text.x = element_text(angle = 60)) +
+  facet_wrap(~cohort) +
+  scale_fill_viridis_d()
+
 
 # We can also look at the following to get a general sense of the data:
 # - total cohorts/grads, facet_wrap by borough
@@ -175,8 +200,7 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 
 
 ```{r report_results}
-#group_by() 
-#summarize() 
+
 #report graduation by borough
 #report graduation by english language status
 #report graduation by borough & english learner status
