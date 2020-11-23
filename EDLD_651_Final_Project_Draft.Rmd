@@ -86,17 +86,16 @@ Explain participants' from what we have in data.
 First, we import and clean our data:
 ```{r import_and_clean}
 
-grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
-grad <- grad %>% 
+raw_grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
+grad <- raw_grad %>% 
   clean_names() %>% 
   as_tibble()
 
-summary(grad$cohort) # needs to be cleaned in new df, change Aug 2006 to 2006
+summary(grad$cohort) # we see here that 'Aug 2006' needs to be changed to '2006' for consistency
 
-clean_grad <- grad
-clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
+grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
-kable(head(clean_grad)) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
+head(grad) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
 ```
 
 ## PIVOTS
@@ -104,100 +103,65 @@ kable(head(clean_grad)) #need to change var names to make legible, perhaps subse
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
 
 ```{r pivots}
-messy_grad <- clean_grad %>% 
+messy_grad <- grad %>% 
   pivot_wider(names_from = borough,
               values_from = total_cohort)
-kable(head(messy_grad))
+head(messy_grad)
 
-clean_grad_2 <- messy_grad %>% 
+clean_grad <- messy_grad %>% 
   pivot_longer(cols = c("Bronx":"Staten Island"),
                names_to = "borough",
                values_to = "total_cohort",
                values_drop_na = TRUE)
 
-clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
-apa_table(clean_grad_2)
+clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
+apa_table(clean_grad)
 
-kable(head(clean_grad_2))
+kable(head(clean_grad))
 ```
 
-
-Other tasks that need to be done:
+Now that we have tidied the entire dataset, we can focus on our variables of interest.
 
 ```{r select_and_filter_vars_of_interest, Heidi}
-dropout_percent <- filter(clean_grad_2, demographic == "English Language Learners" |
+dropout_percent <- filter(clean_grad, demographic == "English Language Learners" |
                 demographic == "English Proficient Students") %>% 
-  select(2, 1, 2, 6, 22)
+  select(3, 1, 2, 6, 22)
 ```
 
 ```{r mutate, Aaron}
 names(clean_grad)
-
 head(clean_grad)
-
 clean_grad$demographic
 
- 
-
 all_comp <- clean_grad %>%
-
-  select(c(1, 5, 6, 17:22)) %>%
-
+  select(c(1, 4, 5, 6, 17:22)) %>%
   filter(demographic == "English Language Learners" |
-
          demographic == "English Proficient Students" |
-
          demographic == "Special Education" |
-
          demographic == "General Education")
 
- 
-
 all_comp <- all_comp %>%
-
   group_by(demographic) %>%
-
   mutate(total_n = total_grads_n + dropped_out_n + still_enrolled_n)
 
- 
-
 dropped_out <- all_comp %>%
-
   group_by(demographic) %>%
-
   mutate(pct_dropped_out_grad = dropped_out_n / total_n) %>%
-
   summarize(mean_dropped_pct = mean(pct_dropped_out_grad))
 
- 
-
 still_enrolled <- all_comp %>%
-
   group_by(demographic) %>%
-
   mutate(pct_still_enrolled = still_enrolled_n / total_n) %>%
-
   summarize(mean_still_enrolled_pct = mean(pct_still_enrolled))
 
- 
-
 graduated <- all_comp %>%
-
   group_by(demographic) %>%
-
   mutate(pct_total_grad = total_grads_n / total_n) %>%
-
   summarize(mean_total_grad = mean(pct_total_grad))
-
- 
 
 join1 <- left_join(dropped_out, still_enrolled)
 
- 
-
 all_comparison_smy <- left_join(join1, graduated)
-
- 
 
 kable(all_comparison_smy)
 ```
