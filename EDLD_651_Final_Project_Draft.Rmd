@@ -86,15 +86,15 @@ Explain participants' from what we have in data.
 First, we import and clean our data:
 ```{r import_and_clean}
 
-grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
-grad <- grad %>% 
+grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv")) %>% 
   clean_names() %>% 
-  as_tibble()
+  as_tibble() # condensed this into a single pipeline
+
 
 summary(grad$cohort) # needs to be cleaned in new df, change Aug 2006 to 2006
 
 clean_grad <- grad
-clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
+clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort)) # is there perhaps a better name for this cohort given that there is already a separate 2006 cohort?
 
 kable(head(clean_grad)) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
 ```
@@ -104,7 +104,7 @@ kable(head(clean_grad)) #need to change var names to make legible, perhaps subse
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
 
 ```{r pivots}
-messy_grad <- clean_grad %>% 
+messy_grad <- clean_grad %>% # I like how you use pivot_wider and pivot_longer simply to demonstrate your proficiency. Noice.
   pivot_wider(names_from = borough,
               values_from = total_cohort)
 kable(head(messy_grad))
@@ -260,6 +260,8 @@ clean_grad %>%
 # Discussion
 
 Differences appear to be blah by blah for blah. XYZ boroughs should consider blah blah blah, based on the results. Inferential tests are recommended for next directions.
+
+<!-- This really helped me understand the data! I never would have considered blah blah blah until I read your discussion. -->
 
 \newpage
 
