@@ -95,6 +95,8 @@ clean_grad <- grad
 clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
 kable(head(clean_grad)) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
+
+# Diana's 1st 'strength' comment: It's clear that you've looked carefully at your data before you untidied and re-tidied it :)
 ```
 
 ## PIVOTS
@@ -113,10 +115,14 @@ clean_grad_2 <- messy_grad %>%
                values_to = "total_cohort",
                values_drop_na = TRUE)
 
+# Diana's 'what I learned' comment: From the code chunk above, I learned how to call a vector when using pivot_longer using ':'.
+
 clean_grad_2 <- clean_grad_2[, c(1,21,2,22,3:20)]
 apa_table(clean_grad_2)
 
 kable(head(clean_grad_2))
+
+# Diana's 2nd 'strength' comment: You've done a really nice job tidying the data and re-ordering the columns using pivot_wider() and pivot_longer()
 ```
 
 
@@ -155,6 +161,12 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 #report graduation by borough
 #report graduation by english language status
 #report graduation by borough & english learner status
+
+clean_grad_2 %>%
+  group_by(borough) %>%
+  summarize(sum.grads = sum(total_grads_n))
+
+# Diana's 'suggestion' comment: Above, I've included example code for how you might group graduation by borough as you report the sum of total grads per borough in the results.
 ```
 
 
@@ -183,6 +195,8 @@ clean_grad %>%
   labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
        subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
        y = 'Percent of total cohort')
+
+# Diana's 3rd 'strength' comment: This graph is really well formatted and informative!
 ```
 
 
