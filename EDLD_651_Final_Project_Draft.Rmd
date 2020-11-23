@@ -89,10 +89,13 @@ grad <- grad %>%
   clean_names() %>% 
   as_tibble()
 
+###MK### You can also pipe the clean_names and as_tibble functions with import if you want to save some space. It'd be something like this:
+###MK### grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv")) %>% clean_names() %>% as_tibble()
+
 summary(grad$cohort) # needs to be cleaned in new df, change Aug 2006 to 2006
 
 clean_grad <- grad
-clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
+clean_grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort)) ###MK###This is super cool!
 
 kable(head(clean_grad)) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
 ```
@@ -170,7 +173,7 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 clean_grad %>% 
   filter(demographic == "English Language Learners" | 
            demographic == "English Proficient Students") %>% 
-  mutate(`English Language Learner Status` = 
+  mutate(`English Language Learner Status` = ###MK### Just as a suggestion, a shorter name with no spaces may be useful since it seems that you will use this variable more than once.
            factor(demographic, 
                   levels = c("English Language Learners", 
                       "English Proficient Students"), 
@@ -179,10 +182,12 @@ clean_grad %>%
          ) %>% group_by(`English Language Learner Status`, borough) %>% 
   ggplot(aes(x = `English Language Learner Status`, 
              y = total_grads_percent_of_cohort)) +
-  geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + 
+  geom_jitter(aes(color = cohort)) + facet_wrap(~borough) + ###MK### Very cool!
   labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
        subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
        y = 'Percent of total cohort')
+
+###MK### The plot looks cool. One thing that may make the plot easier on the eye could be to have the legend at the bottom of the plot (i.e., theme(legend.position = "bottom", legend.direction = "horizontal")) or to make the figure wider via `r graph_results, fig.width=8.5`.
 ```
 
 
