@@ -169,12 +169,12 @@ demographic_bar <- demographic_data %>%
 
 # which makes more sense?
 # Option 1 - cohort as factor(), faceted by characteristic
-demographic_bar %>% 
-  ggplot(aes(fill = factor(cohort), x = demographic, y = pct)) +
-  geom_bar(position = "stack", stat = "identity") +
-  theme(axis.text.x = element_text(angle = 60)) +
-  facet_wrap(~characteristic) +
-  scale_fill_viridis_d()
+# demographic_bar %>% 
+#   ggplot(aes(fill = factor(cohort), x = demographic, y = pct)) +
+#   geom_bar(position = "stack", stat = "identity") +
+#   theme(axis.text.x = element_text(angle = 60)) +
+#   facet_grid(~characteristic + cohort) +
+#   scale_fill_viridis_d()
 
 # Option 2 - cohort and characteristic switched
 demographic_bar %>% 
