@@ -11,9 +11,12 @@ First Slide example
 
 info here: <https://support.rstudio.com/hc/en-us/articles/200486468>.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+- Journey (everyone, one min or so)
+- Data
+- Challenges and Failures
+- Successes (and cool stuff we found)
+- Preliminary Findings & Interpretations
+- Where we go from here (start project level, then can extend beyond course)
 
 Two-column slide example
 ========================================================
