@@ -1,3 +1,134 @@
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set()
+library(papaja)
+library(tidyverse)
+library(janitor)
+library(rio)
+library(here)
+library(knitr)
+theme_set(theme_minimal())
+r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc.
+```
+
+```{r import_and_clean, include=FALSE}
+
+raw_grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
+grad <- raw_grad %>% 
+  clean_names() %>% 
+  as_tibble()
+
+summary(grad$cohort) # we see here that 'Aug 2006' needs to be changed to '2006' for consistency
+
+grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
+
+head(grad) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
+```
+
+```{r pivots, include=FALSE}
+messy_grad <- grad %>% 
+  pivot_wider(names_from = borough,
+              values_from = total_cohort)
+head(messy_grad)
+
+clean_grad <- messy_grad %>% 
+  pivot_longer(cols = c("Bronx":"Staten Island"),
+               names_to = "borough",
+               values_to = "total_cohort",
+               values_drop_na = TRUE)
+
+clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
+apa_table(clean_grad)
+
+head(clean_grad)
+```
+
+```{r select original, include=FALSE}
+
+filtered_grad <- clean_grad %>%
+  select(c(1:6, 16:22)) %>%
+  filter(demographic == "English Language Learners" |
+         demographic == "English Proficient Students" |
+         demographic == "Special Education" |
+         demographic == "General Education") %>% 
+  mutate(student_characteristic = 
+           factor(demographic, 
+                  levels = c("English Language Learners", 
+                      "English Proficient Students", 
+                      "Special Education", 
+                      "General Education"), 
+                  labels = c('ELL', 'EP', 'SPED', 'Non-SPED')
+                  ))
+
+new_grad <- filtered_grad %>%
+  mutate(unclassified_n = total_cohort - (total_grads_n + dropped_out_n + still_enrolled_n),
+         unclassified_percent_of_cohort = round(unclassified_n/total_cohort * 100, 1))
+
+```
+
+
+```{r summary stats, include=FALSE}
+head(new_grad)
+
+# group by relevant demographics (ELL & EP, GE & SPED)
+demographic_data <- new_grad %>% 
+  group_by(student_characteristic, cohort) %>% 
+  summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+
+# group by borough, look at % of local students
+borough_data <- new_grad %>% 
+  group_by(borough, cohort) %>% 
+  summarize(mean_local = mean(local_percent_of_cohort),
+            mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+```
+
+
+```{r descriptives_of_dataset, include = F}
+demographic_bar <- demographic_data %>% 
+  pivot_longer(cols = contains("mean"),
+               names_to = c("characteristic", ".value"),
+               names_prefix = "mean_",
+               names_sep = "_")
+
+# which makes more sense?
+# Option 1 - cohort as factor(), faceted by characteristic
+# demographic_bar %>% 
+#   ggplot(aes(fill = factor(cohort), x = student_characteristic, y = pct)) +
+#   geom_bar(position = "stack", stat = "identity") +
+#   theme(axis.text.x = element_text(angle = 60)) +
+#   facet_grid(~characteristic + cohort) +
+#   scale_fill_viridis_d()
+
+# Option 2 - cohort and characteristic switched
+demographic_bar %>% 
+  ggplot(aes(fill = characteristic, x = student_characteristic, y = pct)) +
+  geom_bar(position = "stack", stat = "identity") +
+  theme(axis.text.x = element_text(angle = 60)) +
+  facet_wrap(~cohort) +
+  scale_fill_viridis_d()
+
+
+# We can also look at the following to get a general sense of the data:
+# - total cohorts/grads, facet_wrap by borough
+# - grad percentage by student_characteristic, then can do a deeper dive by borough
+# - the above two repeated with dropout rate
+```
+
+
+```{r report_results, include = F}
+#report graduation by borough
+#report graduation by english language status
+#report graduation by SPED status
+#report graduation by borough & SPED status
+#report graduation by borough & english learner status
+```
+
 Graduation Outcomes by NYC Burough
 ========================================================
 author: Anwesha Guha, Heidi Iwashita, Christopher Loan, Adam Nielsen, Aaron Rothbart
@@ -13,3 +144,131 @@ Overview
 - Successes
 - Preliminary Findings
 - Where we go from here
+
+Journey
+===
+
+- Varied experience & interest in data science
+- Indivdual share outs
+!!!!PICTURE HERE!!!!
+
+Exploring Options of Data
+===
+- Narrowed overlapping interests
+    - Found numerous data sources (criminology, voting, education)
+    - Group poll for interested: selected *differential educational outcomes*
+      - Modal interest among options
+      - Many variables to leverage
+
+
+Selected Data
+===
+- [*NYC OpenData*](https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek)
+    - Graduation outcome information (2005 - 2010)
+    - Variables of interest (SPED Status & EL Status)
+
+```{r}
+names(grad)
+```
+
+Diving into the Data (Aaron & Heidi)
+====
+Selecting, Filtering & Mutating
+```{r select, echo=TRUE, eval = F}
+
+filtered_grad <- clean_grad %>%
+  select(c(1:6, 16:22)) %>%
+  filter(demographic == "English Language Learners" |
+         demographic == "English Proficient Students" |
+         demographic == "Special Education" |
+         demographic == "General Education") %>% 
+  mutate(student_characteristic = 
+           factor(demographic, 
+                  levels = c("English Language Learners", 
+                      "English Proficient Students", 
+                      "Special Education", 
+                      "General Education"), 
+                  labels = c('ELL', 'EP', 'SPED', 'Non-SPED')
+                  ))
+```
+
+Overcoming Challenges
+====
+- .DS_store (Aaron)
+  - solution: Collaboration!
+- GitHub (Chris)
+  - solution: Doing what works 
+- Presentation through R (Anwesha)
+  - solution: Self-teaching & Online Tutorials
+- Messy / Poorly Coded Data
+  - solution: attention to detail (& tidyverse)
+!!!!! ADAM & HEIDI !!!!!
+
+```{r echo = T, eval = F}
+new_grad <- filtered_grad %>%
+  mutate(unclassified_n = total_cohort - (total_grads_n + dropped_out_n + still_enrolled_n),
+         unclassified_percent_of_cohort = round(unclassified_n/total_cohort * 100, 1))
+```
+
+
+===
+
+```{r summary stats shown}
+demographic_data <- new_grad %>% 
+  group_by(student_characteristic, cohort) %>% 
+  summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+# ADD A TABLE
+```
+
+===
+
+```{r}
+# group by borough, look at % of local students
+# consider a map
+borough_data <- new_grad %>% 
+  group_by(borough, cohort) %>% 
+  summarize(mean_local = mean(local_percent_of_cohort),
+            mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+```
+
+EL Graph
+========================================================
+```{r graph_results_EL_graph, echo=FALSE, fig.width = 12, fig.height = 8}
+new_grad %>% 
+  filter(student_characteristic == "ELL" | 
+           student_characteristic == "EP") %>% 
+  mutate(Cohort = factor(cohort)) %>% 
+  group_by(student_characteristic, borough) %>% 
+  ggplot(aes(x = student_characteristic, 
+             y = total_grads_percent_of_cohort)) +
+  geom_jitter(aes(color = Cohort)) + facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
+       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+       y = 'Percent of total cohort',
+       x = 'Student Characteristic')
+```
+
+SPED Graph
+========================================================
+```{r graph_results_SPED, echo=FALSE}
+new_grad %>% 
+  filter(student_characteristic == "SPED" | 
+           student_characteristic == "Non-SPED") %>% 
+  mutate(Cohort = factor(cohort)) %>% 
+  group_by(student_characteristic, borough) %>% 
+  ggplot(aes(x = student_characteristic, 
+             y = total_grads_percent_of_cohort)) +
+  geom_jitter(aes(color = Cohort)) + 
+  facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
+       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+       y = 'Percent of total cohort',
+       x = 'Student Characteristic')
+```
+
