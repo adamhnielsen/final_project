@@ -26,8 +26,34 @@ info here: <https://support.rstudio.com/hc/en-us/articles/200486468>.
   - Anwesha
   - Chris
 - Where we go from here (start project level, then can extend beyond course) (Adam)
+Planning Slide
+========================================================
 
-Two-column slide example
+info here: <https://support.rstudio.com/hc/en-us/articles/200486468>.
+
+- Data (Anwesha)
+  - background of narrowing data (same order as below)
+- Journey (everyone, one min or so): 1 slide (Heidi)
+  - Adam, Chris, Aaron, Heidi, Anwesha
+- Challenges and Failures (Aaron)
+  - Aaron & DS Store & Anwesha
+  - Adam, Heidi, Chris
+- Successes (and cool stuff we found) (everyone)
+  - slide for each person
+    - Chris - Github
+    - tbd
+- Preliminary Findings & Interpretations (Chris & Anwesha)
+  - Anwesha
+  - Chris
+- Where we go from here (start project level, then can extend beyond course) (Adam)
+========================================
+Data (Anwesha)
+========================================================
+How we narrowed the data
+
+
+
+Our Journey
 ========================================================
 left: 40%
 

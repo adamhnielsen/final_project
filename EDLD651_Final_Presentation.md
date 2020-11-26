@@ -33,14 +33,21 @@ Overview
 - Where we go from here
 
 Journey
-===
+======================================================
+title: false
+left: 60%
 
-- Varied experience & interest in data science
-- Indivdual share outs
-!!!!PICTURE HERE!!!!
+![alt text](our_journey.png)
+***
+
+- Different starting points
+- Varied reasons for learning R
+- Learned to backtrack and try again
+- Not straightforward! 
+- Learned from each other
 
 Exploring Options of Data
-===
+==========================
 - Narrowed overlapping interests
     - Found numerous data sources (criminology, voting, education)
     - Group poll for interested: selected *differential educational outcomes*
