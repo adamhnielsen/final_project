@@ -6,21 +6,30 @@ author: Anwesha Guha, Heidi Iwashita, Christopher Loan, Adam Nielsen, Aaron Roth
 date: November 30, 2020
 autosize: true
 
-First Slide example
+Planning Slide
 ========================================================
 
 info here: <https://support.rstudio.com/hc/en-us/articles/200486468>.
 
-- Journey (everyone, one min or so)
-- Data
-- Challenges and Failures
-- Successes (and cool stuff we found)
-- Preliminary Findings & Interpretations
-- Where we go from here (start project level, then can extend beyond course)
+- Data (Anwesha)
+  - background of narrowing data (same order as below)
+- Journey (everyone, one min or so): 1 slide (Heidi)
+  - Adam, Chris, Aaron, Heidi, Anwesha
+- Challenges and Failures (Aaron)
+  - Aaron & DS Store & Anwesha
+  - Adam, Heidi, Chris
+- Successes (and cool stuff we found) (everyone)
+  - slide for each person
+    - Chris - Github
+    - tbd
+- Preliminary Findings & Interpretations (Chris & Anwesha)
+  - Anwesha
+  - Chris
+- Where we go from here (start project level, then can extend beyond course) (Adam)
 
 Two-column slide example
 ========================================================
-left: 70%
+left: 40%
 
 first column
 ***
@@ -50,3 +59,14 @@ Slide With Plot example
 ![plot of chunk unnamed-chunk-2](presentation-figure/unnamed-chunk-2-1.png)
 ***
 Here is info about the plot.
+- bullet 1
+- 2
+- 3
+
+Two-column slide example
+========================================================
+left: 70%
+
+first column
+***
+second column
