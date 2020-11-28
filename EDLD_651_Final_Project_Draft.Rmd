@@ -95,7 +95,9 @@ summary(grad$cohort) # we see here that 'Aug 2006' needs to be changed to '2006'
 
 grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
-head(grad) #need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
+head(grad)#need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
+# Do we want to use recode() or rename()? Also, does it make more sense to leave all of the columns until we get to the 'select' r-chunk? -Adam
+
 ```
 
 ## PIVOTS
@@ -115,7 +117,7 @@ clean_grad <- messy_grad %>%
                values_drop_na = TRUE)
 
 clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
-apa_table(clean_grad)
+kable(clean_grad)
 
 head(clean_grad)
 ```
@@ -187,7 +189,7 @@ demographic_bar <- demographic_data %>%
 # Option 2 - cohort and characteristic switched
 demographic_bar %>% 
   ggplot(aes(fill = characteristic, x = student_characteristic, y = pct)) +
-  geom_bar(position = "stack", stat = "identity") +
+  geom_bar(position = "stack", stat = "identity") + # do we want stack or dodge for position? -Adam
   theme(axis.text.x = element_text(angle = 60)) +
   facet_wrap(~cohort) +
   scale_fill_viridis_d()
@@ -231,7 +233,7 @@ new_grad %>%
        x = 'Student Characteristic')
 ```
 
-```{r graph_results} 
+```{r graph_results2} 
 new_grad %>% 
   filter(student_characteristic == "SPED" | 
            student_characteristic == "Non-SPED") %>% 
