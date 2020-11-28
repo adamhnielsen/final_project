@@ -120,9 +120,51 @@ Overcoming Challenges
   - solution: Doing what works 
 - Presentation through R (Anwesha)
   - solution: Self-teaching & Online Tutorials
-- Messy / Poorly Coded Data
+- Messy / Poorly Coded Data (Adam & Heidi)
   - solution: attention to detail (& tidyverse)
-!!!!! ADAM & HEIDI !!!!!
+
+Successes
+======================================================
+left: 60%
+
+![alt text](successes.png)
+***
+
+- Anwesha
+- Heidi
+- Chris
+- Adam
+- Aaron
+
+Anwesha
+======================================================
+
+Heidi
+======================================================
+**Gaining confidence in "R" in general:**
+- No prior knowledge of R
+- Supplemented tutorials w/apps Enki and Programming Hub for foundational knowledge
+- Used "scan" package for anticipated data graphs for dissertation proposal
+
+***
+
+**Successes in this project:**
+- Learned from other group members
+- Used "select" and "filter"
+- Can now use papaja to write APA paper & add citations
+- Gained familiarity with Rpres
+
+Chris
+======================================================
+
+Adam
+======================================================
+
+Aaron
+======================================================
+
+Mutate
+======================================================
 
 
 ```r
