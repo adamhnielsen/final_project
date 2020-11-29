@@ -91,6 +91,54 @@ names(grad)
 [22] "dropped_out_percent_of_cohort"         
 ```
 
+
+
+Overcoming Challenges
+====
+- .DS_store (Aaron)
+  - solution: Collaboration!
+- GitHub (Chris)
+  - solution: Doing what works 
+- Presentation through R and coordinating (Anwesha)
+  - solution: Self-teaching & Online Tutorials
+- Messy / Poorly Coded Data (Adam & Heidi)
+  - solution: attention to detail (& tidyverse)
+
+Successes
+======================================================
+left: 60%
+
+![alt text](successes.png)
+***
+
+- Adam
+- Anwesha
+- Heidi
+- Chris
+- Aaron
+
+Anwesha
+======================================================
+
+
+Chris
+======================================================
+
+Adam
+======================================================
+**Challenges**
+- Creativity
+
+**Successes**
+- Getting the thing started
+- Not ruining everything
+
+***
+
+**Next Hurdle**
+- Machine Learning
+
+
 Diving into the Data (Aaron & Heidi)
 ====
 Selecting, Filtering & Mutating
@@ -112,33 +160,6 @@ filtered_grad <- clean_grad %>%
                   ))
 ```
 
-Overcoming Challenges
-====
-- .DS_store (Aaron)
-  - solution: Collaboration!
-- GitHub (Chris)
-  - solution: Doing what works 
-- Presentation through R (Anwesha)
-  - solution: Self-teaching & Online Tutorials
-- Messy / Poorly Coded Data (Adam & Heidi)
-  - solution: attention to detail (& tidyverse)
-
-Successes
-======================================================
-left: 60%
-
-![alt text](successes.png)
-***
-
-- Anwesha
-- Heidi
-- Chris
-- Adam
-- Aaron
-
-Anwesha
-======================================================
-
 Heidi
 ======================================================
 **Gaining confidence in "R" in general:**
@@ -153,15 +174,6 @@ Heidi
 - Used "select" and "filter"
 - Can now use papaja to write APA paper & add citations
 - Gained familiarity with Rpres
-
-Chris
-======================================================
-
-Adam
-======================================================
-
-Aaron
-======================================================
 
 Mutate
 ======================================================

@@ -117,8 +117,6 @@ clean_grad <- messy_grad %>%
                values_drop_na = TRUE)
 
 clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
-kable(clean_grad)
-
 head(clean_grad)
 ```
 
