@@ -184,8 +184,6 @@ Overcoming Challenges
 ====
 - .DS_store (Aaron)
   - solution: Collaboration!
-- GitHub (Chris)
-  - solution: Doing what works 
 - Presentation through R and coordinating (Anwesha)
   - solution: Self-teaching & Online Tutorials
 - Messy / Poorly Coded Data (Adam & Heidi)
@@ -210,6 +208,19 @@ Anwesha
 
 Chris
 ======================================================
+**Challenges**
+- Utilizing GitHub with Others
+- Regular Expression & `pivot_longer()` / `pivot_wider()`
+    - I have used these for other projects, but always wasted **lots of time**
+    - Previously would pivot one variable at a time and use `left_join()` or analogous
+
+***
+
+**Successess**
+
+- Learning to fork, do pull requests, etc. on GitHub
+- Better with `pivot_longer()` & `pivot_wider()`
+    - still don't get regular expression though :)
 
 Adam
 ======================================================
@@ -298,9 +309,16 @@ borough_data <- new_grad %>%
             mean_unclassified_pct = mean(unclassified_percent_of_cohort))
 ```
 
-EL Graph
+% Graduation by English Language Status
 ========================================================
 ```{r graph_results_EL_graph, echo=FALSE, fig.width = 12, fig.height = 8}
+
+group_means <- new_grad %>%
+    filter(student_characteristic == "ELL" | 
+           student_characteristic == "EP") %>%
+  group_by(student_characteristic, borough) %>% 
+  summarise(avg = mean(total_grads_percent_of_cohort))
+
 new_grad %>% 
   filter(student_characteristic == "ELL" | 
            student_characteristic == "EP") %>% 
@@ -308,16 +326,30 @@ new_grad %>%
   group_by(student_characteristic, borough) %>% 
   ggplot(aes(x = student_characteristic, 
              y = total_grads_percent_of_cohort)) +
-  geom_jitter(aes(color = Cohort)) + facet_wrap(~borough) + 
-  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
-       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+  geom_jitter(aes(color = Cohort)) + 
+  geom_hline(data = group_means, 
+             aes(yintercept = avg), 
+             linetype = "dashed", 
+             size = 1.5
+             ) +
+  facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by EL Status',
+       subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
-       x = 'Student Characteristic')
+       x = 'Student Characteristic') + 
+  theme(text = element_text(size = 20))
+
 ```
 
-SPED Graph
+% Graduation by Special Education Status
 ========================================================
-```{r graph_results_SPED, echo=FALSE}
+```{r graph_results_SPED, echo=FALSE, fig.width = 12, fig.height = 8}
+group_means_2 <- new_grad %>%
+    filter(student_characteristic == "SPED" | 
+           student_characteristic == "Non-SPED") %>% 
+  group_by(student_characteristic, borough) %>% 
+  summarise(avg = mean(total_grads_percent_of_cohort))
+
 new_grad %>% 
   filter(student_characteristic == "SPED" | 
            student_characteristic == "Non-SPED") %>% 
@@ -326,10 +358,20 @@ new_grad %>%
   ggplot(aes(x = student_characteristic, 
              y = total_grads_percent_of_cohort)) +
   geom_jitter(aes(color = Cohort)) + 
+  geom_hline(data = group_means_2, 
+             aes(yintercept = avg), 
+             linetype = "dashed", 
+             size = 1.5
+             ) +
   facet_wrap(~borough) + 
-  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
-       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+  labs(title = 'Figure 2. Graduation Rates in NYC by SPED Status',
+       subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
-       x = 'Student Characteristic')
+       x = 'Student Characteristic')+ 
+  theme(text = element_text(size = 20))      
 ```
 
+Take-aways
+===
+** **
+Gaps between special education status appear relatively constant across borough, with some boroughs (e.g., Staten Island & Manhattan) having higher graduation percentages for both groups. 

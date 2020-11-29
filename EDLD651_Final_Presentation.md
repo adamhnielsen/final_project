@@ -97,8 +97,6 @@ Overcoming Challenges
 ====
 - .DS_store (Aaron)
   - solution: Collaboration!
-- GitHub (Chris)
-  - solution: Doing what works 
 - Presentation through R and coordinating (Anwesha)
   - solution: Self-teaching & Online Tutorials
 - Messy / Poorly Coded Data (Adam & Heidi)
@@ -123,6 +121,19 @@ Anwesha
 
 Chris
 ======================================================
+**Challenges**
+- Utilizing GitHub with Others
+- Regular Expression & `pivot_longer()` / `pivot_wider()`
+    - I have used these for other projects, but always wasted **lots of time**
+    - Previously would pivot one variable at a time and use `left_join()` or analogous
+
+***
+
+**Successess**
+
+- Learning to fork, do pull requests, etc. on GitHub
+- Better with `pivot_longer()` & `pivot_wider()`
+    - still don't get regular expression though :)
 
 Adam
 ======================================================
@@ -214,11 +225,15 @@ borough_data <- new_grad %>%
             mean_unclassified_pct = mean(unclassified_percent_of_cohort))
 ```
 
-EL Graph
+% Graduation by English Language Status
 ========================================================
 ![plot of chunk graph_results_EL_graph](EDLD651_Final_Presentation-figure/graph_results_EL_graph-1.png)
 
-SPED Graph
+% Graduation by Special Education Status
 ========================================================
 ![plot of chunk graph_results_SPED](EDLD651_Final_Presentation-figure/graph_results_SPED-1.png)
 
+Take-aways
+===
+** **
+Gaps between special education status appear relatively constant across borough, with some boroughs (e.g., Staten Island & Manhattan) having higher graduation percentages for both groups. 
