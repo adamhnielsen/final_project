@@ -32,9 +32,8 @@ Overview
 - Preliminary Findings
 - Where we go from here
 
-Journey
+Discovering and Learning R
 ======================================================
-title: false
 left: 60%
 
 ![alt text](our_journey.png)
@@ -112,6 +111,8 @@ Adam
 **Challenges**
 - Creativity
 
+***
+
 **Successes**
 - Getting the thing started
 - Not ruining everything
@@ -147,10 +148,9 @@ Anwesha
 Heidi
 ======================================================
 **Challenges**
-- Gaining confidence in "R" in general:
+- Gaining confidence in "R" in general
 - No prior knowledge of R
 - Supplemented tutorials w/apps Enki and Programming Hub for foundational knowledge
-- Used "scan" package for anticipated data graphs for dissertation proposal
 
 ***
 
@@ -159,6 +159,8 @@ Heidi
 - Used "select" and "filter"
 - Can now use papaja to write APA paper & add citations
 - Gained familiarity with Rpres
+- Used "scan" package for anticipated data graphs for dissertation proposal
+
 
 Chris
 ======================================================
