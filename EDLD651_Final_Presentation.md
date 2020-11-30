@@ -244,7 +244,7 @@ Graduation Outcomes by Student Classification, Faceted by Year
 ========================================================
 ![plot of chunk graph_results_SPED](EDLD651_Final_Presentation-figure/graph_results_SPED-1.png)
 
-Take-aways
+Take-Aways
 ===
 
 **EL status**
@@ -261,7 +261,7 @@ Take-aways
 - Gaps between SPED and non-SPED students appear relatively constant across borough
 - Some boroughs (i.e., Staten Island & Manhattan) have higher graduation percentages for both groups. 
 
-Next steps
+Next Steps
 ===
 
 **Inferential statistics:** test if differences are significant
