@@ -373,5 +373,17 @@ new_grad %>%
 
 Take-aways
 ===
-** **
-Gaps between special education status appear relatively constant across borough, with some boroughs (e.g., Staten Island & Manhattan) having higher graduation percentages for both groups. 
+
+**EL status**
+Gaps between ELL and EP students appear to display heterogeneity, such that certain boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). From a social justice framework, it is particularly concerning that Staten Island has the highest graduation % for EP students, and nearly the lowest for ELL students.
+
+***
+
+**SPED status**
+Gaps between SPED and non-SPED students appear relatively constant across borough, with some boroughs (i.e., Staten Island & Manhattan) having higher graduation percentages for both groups. 
+
+Next steps
+===
+
+- Inferential statistics should follow these descriptive methods to see if this differences are significant. 
+- Educational theorists should be consulted to advise potential confounding variables can explain the variation in these averages (e.g., access to resources, percent of teachers that speak languages other than English, or which non-English language(s) is/are spoken in each borough)
