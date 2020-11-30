@@ -93,31 +93,72 @@ names(grad)
 
 
 
-Overcoming Challenges
+Overcoming Group Challenges
 ====
-- .DS_store (Aaron)
-  - solution: Collaboration!
-- Presentation through R and coordinating (Anwesha)
-  - solution: Self-teaching & Online Tutorials
-- Messy / Poorly Coded Data (Adam & Heidi)
+- Presentation through R and coordinating
+  - solution: email, Zoom, Google docs & searches
+- Messy / Poorly Coded Data
   - solution: attention to detail (& tidyverse)
 
-Successes
-======================================================
-left: 60%
 
+Our Journey with R
+======================================================
 ![alt text](successes.png)
+
+
+
+Adam
+======================================================
+**Challenges**
+- Creativity
+
+**Successes**
+- Getting the thing started
+- Not ruining everything
+
+
+Aaron
+======================================================
+**Challenges**
+![.DS_Store](ds_store.png)
+.DS_Store
+
 ***
 
-- Adam
-- Anwesha
-- Heidi
-- Chris
-- Aaron
+**Successes**
+- Collaboration
+- Learning to recover files (after ruining everything)
+- Data consolidation
 
 Anwesha
-======================================================
+====
+**Challenges**
+- Rpres
+- Merge conflicts
 
+***
+
+**Successes**
+- Condensing code
+- Collaboration
+- Using `pivot_longer()` and `pivot_wider()`
+
+
+Heidi
+======================================================
+**Challenges**
+- Gaining confidence in "R" in general:
+- No prior knowledge of R
+- Supplemented tutorials w/apps Enki and Programming Hub for foundational knowledge
+- Used "scan" package for anticipated data graphs for dissertation proposal
+
+***
+
+**Successes**
+- Learned from other group members
+- Used "select" and "filter"
+- Can now use papaja to write APA paper & add citations
+- Gained familiarity with Rpres
 
 Chris
 ======================================================
@@ -129,28 +170,13 @@ Chris
 
 ***
 
-**Successess**
+**Successes**
 
 - Learning to fork, do pull requests, etc. on GitHub
 - Better with `pivot_longer()` & `pivot_wider()`
     - still don't get regular expression though :)
 
-Adam
-======================================================
-**Challenges**
-- Creativity
-
-**Successes**
-- Getting the thing started
-- Not ruining everything
-
-***
-
-**Next Hurdle**
-- Machine Learning
-
-
-Diving into the Data (Aaron & Heidi)
+Diving into the Data
 ====
 Selecting, Filtering & Mutating
 
@@ -171,22 +197,8 @@ filtered_grad <- clean_grad %>%
                   ))
 ```
 
-Heidi
-======================================================
-**Gaining confidence in "R" in general:**
-- No prior knowledge of R
-- Supplemented tutorials w/apps Enki and Programming Hub for foundational knowledge
-- Used "scan" package for anticipated data graphs for dissertation proposal
 
-***
-
-**Successes in this project:**
-- Learned from other group members
-- Used "select" and "filter"
-- Can now use papaja to write APA paper & add citations
-- Gained familiarity with Rpres
-
-Mutate
+Mutate, cont'd.
 ======================================================
 
 
@@ -196,38 +208,37 @@ new_grad <- filtered_grad %>%
          unclassified_percent_of_cohort = round(unclassified_n/total_cohort * 100, 1))
 ```
 
-
+Graduation Outcomes by Student Classification
 ===
 
 
-```r
-demographic_data <- new_grad %>% 
-  group_by(student_characteristic, cohort) %>% 
-  summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
-            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
-            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
-            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
-# ADD A TABLE
-```
+|student_characteristic | mean_grad_pct| mean_dropout_pct| mean_enrolled_pct| mean_unclassified_pct|
+|:----------------------|-------------:|----------------:|-----------------:|---------------------:|
+|ELL                    |         34.24|            23.10|             36.59|                  6.08|
+|EP                     |         61.58|            11.98|             23.32|                  3.13|
+|SPED                   |         24.75|            23.24|             37.78|                 14.24|
+|Non-SPED               |         64.27|            11.54|             22.57|                  1.63|
 
+Graduation Outcomes by Borough
 ===
 
 
-```r
-# group by borough, look at % of local students
-# consider a map
-borough_data <- new_grad %>% 
-  group_by(borough, cohort) %>% 
-  summarize(mean_local = mean(local_percent_of_cohort),
-            mean_grad_pct = mean(total_grads_percent_of_cohort),
-            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
-            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
-            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
-```
+|borough       | mean_local| mean_grad_pct| mean_dropout_pct| mean_enrolled_pct| mean_unclassified_pct|
+|:-------------|----------:|-------------:|----------------:|-----------------:|---------------------:|
+|Bronx         |      17.39|         40.29|            20.38|             31.38|                  7.97|
+|Brooklyn      |      14.71|         42.76|            18.39|             33.10|                  5.75|
+|Manhattan     |      15.39|         47.38|            16.80|             30.05|                  5.77|
+|Queens        |      14.71|         46.96|            17.94|             29.92|                  5.18|
+|Staten Island |      16.90|         53.66|            13.81|             25.85|                  6.69|
+
+Graduation Outcomes by Student Classification, Faceted by Year
+===
+![plot of chunk unnamed-chunk-4](EDLD651_Final_Presentation-figure/unnamed-chunk-4-1.png)
 
 % Graduation by English Language Status
 ========================================================
 ![plot of chunk graph_results_EL_graph](EDLD651_Final_Presentation-figure/graph_results_EL_graph-1.png)
+
 
 % Graduation by Special Education Status
 ========================================================
@@ -264,3 +275,10 @@ Next steps
     - Parental access to (and leverage of) extra-curricular educational resources
 
 **Explore redistribution of resources**
+
+Future Directions in R
+===
+- Machine Learning
+- Data visualization
+- Single-subject applications
+- Functional applications
