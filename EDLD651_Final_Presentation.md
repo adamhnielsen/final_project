@@ -237,15 +237,30 @@ Take-aways
 ===
 
 **EL status**
-Gaps between ELL and EP students appear to display heterogeneity, such that certain boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). From a social justice framework, it is particularly concerning that Staten Island has the highest graduation % for EP students, and nearly the lowest for ELL students.
+- Gaps between ELL and EP students appear to display heterogeneity
+- certain boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn)
+
+- From a social justice framework:
+    - concerning that Staten Island has the highest graduation % for EP students, and nearly the lowest for ELL students. 
+    - redistribution of resources should be considered in such cases
 
 ***
 
 **SPED status**
-Gaps between SPED and non-SPED students appear relatively constant across borough, with some boroughs (i.e., Staten Island & Manhattan) having higher graduation percentages for both groups. 
+- Gaps between SPED and non-SPED students appear relatively constant across borough
+- Some boroughs (i.e., Staten Island & Manhattan) have higher graduation percentages for both groups. 
 
 Next steps
 ===
 
-- Inferential statistics should follow these descriptive methods to see if this differences are significant. 
-- Educational theorists should be consulted to advise potential confounding variables can explain the variation in these averages (e.g., access to resources, percent of teachers that speak languages other than English, or which non-English language(s) is/are spoken in each borough)
+**Inferential statistics:** test if differences are significant
+
+**Consult experts & educational theorists:** 
+- identify potential confounding variables which explain the variation in these averages (particularly for ELL/EP); e.g.,
+    - School-wide access to funding & resources
+    - Percent of teachers that speak languages other than English,
+    - Predominant non-English language(s) is/are spoken in each borough
+    - Average qualification of SPED/ELL teachers
+    - Parental access to (and leverage of) extra-curricular educational resources
+
+**Explore redistribution of resources**
