@@ -84,6 +84,8 @@ Information about regents examinations here
 Explain participants' from what we have in data.
 
 First, we import and clean our data:
+
+<!-- Everything is looking great so far! Just a friendly reminder that you can customize your code chunks based on what you want to show in your document.  -->
 ```{r import_and_clean}
 
 raw_grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
@@ -102,7 +104,11 @@ head(grad)#need to change var names to make legible, perhaps subset data to only
 
 ## PIVOTS
 
+
+
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
+
+<!-- This was helpful to see as we also had tidy data. We were struggling with untidying and re-tidying so it was nice to see someone do so successfully. -->
 
 ```{r pivots}
 messy_grad <- grad %>% 
@@ -214,7 +220,7 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 #report graduation by borough & SPED status
 #report graduation by borough & english learner status
 ```
-
+<!-- Great way to visualize the data! I learned from the way you created the "English Language Learners variable. One suggestion may be to have "cohort" as a factor so it colors as more of a categorical variable rather than a scale?  -->
 
 ```{r graph_results} 
 new_grad %>% 
