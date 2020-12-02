@@ -203,15 +203,12 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 
 # Results
 
-Visual inspection of Figure 1 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). From a social justice framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates. 
-    
+Visual inspection of Figure 1 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough. 
 
-***
+From an equity framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates. 
 
-**SPED status**
-- Gaps between SPED and non-SPED students appear relatively constant across borough
-- Some boroughs (i.e., Staten Island & Manhattan) have higher graduation percentages for both groups. 
 
+# I DON'T KNOW WHAT TABLE PEOPLE WANT HERE, I THINK WE WERE PUTTING OUR 1 TABLE ELSEWHERE, RIGHT? CAN WE DELETE THESE CHUNKS?
 
 ```{r report_results}
 
@@ -254,6 +251,10 @@ new_grad %>%
 ```
 
 
+Visual inspection of Figure 2 suggests less variability in the difference between average graduation rates of SPED vs. non-SPED students across Boroughs. Unlike ELL vs. EP students, SPED students appear to succeed at rates relative to their Borough. This may suggest support for SPED students increases proportionately to non-SPED students, which is essential from an equity framework.
+
+This trend is evident when we compare the difference between these groups across districts (e.g., Staten Island & Manhattan) which perform well. Visually this looks like a shift in both mean lines, rather than in increase only for non-SPED students.
+
 
 ```{r graph_results_SPED, echo=FALSE, fig.width = 12, fig.height = 8}
 group_means_2 <- new_grad %>%
@@ -283,21 +284,17 @@ new_grad %>%
   theme(text = element_text(size = 20))      
 ```
 
+For in both visual analyses——though some variability over years is evident——annual differences are much smaller than the differences between groups (and in some cases differences between Boroughs). Overall, though, graduation rates seem to not be too different over time for either group comparison.
+
 # Discussion
 
 
-**Inferential statistics:** test if differences are significant
+This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification Cluster to clearly identify differences between groups.
 
-**Consult experts & educational theorists:** 
-- identify potential confounding variables which explain the variation in these averages (particularly for ELL/EP); e.g.,
-    - School-wide access to funding & resources
-    - Percent of teachers that speak languages other than English,
-    - Predominant non-English language(s) is/are spoken in each borough
-    - Average qualification of SPED/ELL teachers
-    - Parental access to (and leverage of) extra-curricular educational resources
+As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future reserach incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs. EP students across borough can be minimized in a way that all students are supported adequately. 
 
+We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: inequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
 
-Differences appear to be blah by blah for blah. XYZ boroughs should consider blah blah blah, based on the results. Inferential tests are recommended for next directions.
 
 \newpage
 
