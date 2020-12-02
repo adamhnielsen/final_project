@@ -1,6 +1,6 @@
 ---
 title             : "EDLD 651 Final Project Draft"
-shorttitle        : "Final_Draft"
+shorttitle        : "New York City Graduation Outcome by Borough and Student Classification"
 
 author: 
   - name          : "Anwesha Guha"
@@ -52,7 +52,7 @@ header-includes:
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE,
+knitr::opts_chunk$set(echo = FALSE,
                       fig.height = 8,    
                       fig.width = 8)
 library(papaja)
@@ -62,7 +62,7 @@ library(rio)
 library(here)
 library(knitr)
 theme_set(theme_minimal())
-r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc.
+r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc. (HEIDI)
 ```
 
 # Introduction
@@ -86,7 +86,7 @@ Explain participants' from what we have in data.
 First, we import and clean our data:
 ```{r import_and_clean}
 
-raw_grad <- import(here("data", "2005-2010__Graduation_Outcomes_-__By_Borough.csv"))
+raw_grad <- import(here("data", "grad.csv"))
 grad <- raw_grad %>% 
   clean_names() %>% 
   as_tibble()
@@ -95,8 +95,7 @@ summary(grad$cohort) # we see here that 'Aug 2006' needs to be changed to '2006'
 
 grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
-head(grad)#need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display
-# Do we want to use recode() or rename()? Also, does it make more sense to leave all of the columns until we get to the 'select' r-chunk? -Adam
+head(grad)
 
 ```
 
@@ -104,11 +103,10 @@ head(grad)#need to change var names to make legible, perhaps subset data to only
 
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
 
-```{r pivots}
+```{r pivots, echo=T}
 messy_grad <- grad %>% 
   pivot_wider(names_from = borough,
               values_from = total_cohort)
-head(messy_grad)
 
 clean_grad <- messy_grad %>% 
   pivot_longer(cols = c("Bronx":"Staten Island"),
@@ -117,7 +115,7 @@ clean_grad <- messy_grad %>%
                values_drop_na = TRUE)
 
 clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
-head(clean_grad)
+
 ```
 
 Now that we have tidied the entire dataset, we can focus on our variables of interest: enrollment and graduation for specific boroughs, cohorts and demographics.
@@ -187,7 +185,7 @@ demographic_bar <- demographic_data %>%
 # Option 2 - cohort and characteristic switched
 demographic_bar %>% 
   ggplot(aes(fill = characteristic, x = student_characteristic, y = pct)) +
-  geom_bar(position = "stack", stat = "identity") + # do we want stack or dodge for position? -Adam
+  geom_bar(position = "stack", stat = "identity") +
   theme(axis.text.x = element_text(angle = 60)) +
   facet_wrap(~cohort) +
   scale_fill_viridis_d()
@@ -216,7 +214,14 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 ```
 
 
-```{r graph_results} 
+```{r graph_results_EL_graph, echo=FALSE, fig.width = 12, fig.height = 8}
+
+group_means <- new_grad %>%
+    filter(student_characteristic == "ELL" | 
+           student_characteristic == "EP") %>%
+  group_by(student_characteristic, borough) %>% 
+  summarise(avg = mean(total_grads_percent_of_cohort))
+
 new_grad %>% 
   filter(student_characteristic == "ELL" | 
            student_characteristic == "EP") %>% 
@@ -224,14 +229,28 @@ new_grad %>%
   group_by(student_characteristic, borough) %>% 
   ggplot(aes(x = student_characteristic, 
              y = total_grads_percent_of_cohort)) +
-  geom_jitter(aes(color = Cohort)) + facet_wrap(~borough) + 
-  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
-       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+  geom_jitter(aes(color = Cohort)) + 
+  geom_hline(data = group_means, 
+             aes(yintercept = avg), 
+             linetype = "dashed", 
+             size = 1.5
+             ) +
+  facet_wrap(~borough) + 
+  labs(title = 'Figure 1. Graduation Rates in NYC by EL Status',
+       subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
-       x = 'Student Characteristic')
+       x = 'Student Characteristic') + 
+  theme(text = element_text(size = 20))
+
 ```
 
-```{r graph_results2} 
+```{r graph_results_SPED, echo=FALSE, fig.width = 12, fig.height = 8}
+group_means_2 <- new_grad %>%
+    filter(student_characteristic == "SPED" | 
+           student_characteristic == "Non-SPED") %>% 
+  group_by(student_characteristic, borough) %>% 
+  summarise(avg = mean(total_grads_percent_of_cohort))
+
 new_grad %>% 
   filter(student_characteristic == "SPED" | 
            student_characteristic == "Non-SPED") %>% 
@@ -240,11 +259,17 @@ new_grad %>%
   ggplot(aes(x = student_characteristic, 
              y = total_grads_percent_of_cohort)) +
   geom_jitter(aes(color = Cohort)) + 
+  geom_hline(data = group_means_2, 
+             aes(yintercept = avg), 
+             linetype = "dashed", 
+             size = 1.5
+             ) +
   facet_wrap(~borough) + 
-  labs(title = 'Figure 1. Graduation Rates in NYC by English Learner Status',
-       subtitle = 'Boroughs are reported separetely with lighter dots indicating more recent years',
+  labs(title = 'Figure 2. Graduation Rates in NYC by SPED Status',
+       subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
-       x = 'Student Characteristic')
+       x = 'Student Characteristic')+ 
+  theme(text = element_text(size = 20))      
 ```
 
 # Discussion

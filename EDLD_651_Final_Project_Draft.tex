@@ -151,7 +151,7 @@
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
 \makeatother
-\shorttitle{Final\_Draft}
+\shorttitle{New York City Graduation Outcome by Borough and Student Classification}
 \keywords{keywords\newline\indent Word count: X}
 \DeclareDelayedFloatFlavor{ThreePartTable}{table}
 \DeclareDelayedFloatFlavor{lltable}{table}
@@ -218,29 +218,10 @@ Explain participants' from what we have in data.
 
 First, we import and clean our data:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{raw_grad <-}\StringTok{ }\KeywordTok{import}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"2005-2010__Graduation_Outcomes_-__By_Borough.csv"}\NormalTok{))}
-\NormalTok{grad <-}\StringTok{ }\NormalTok{raw_grad }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{clean_names}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{as_tibble}\NormalTok{()}
-
-\KeywordTok{summary}\NormalTok{(grad}\OperatorTok{$}\NormalTok{cohort) }\CommentTok{# we see here that 'Aug 2006' needs to be changed to '2006' for consistency}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{verbatim}
 ##    Length     Class      Mode 
 ##       385 character character
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{grad}\OperatorTok{$}\NormalTok{cohort <-}\StringTok{  }\KeywordTok{as.numeric}\NormalTok{(}\KeywordTok{sub}\NormalTok{(}\StringTok{"Aug 2006"}\NormalTok{, }\StringTok{"2006"}\NormalTok{, grad}\OperatorTok{$}\NormalTok{cohort))}
-
-\KeywordTok{head}\NormalTok{(grad)}\CommentTok{#need to change var names to make legible, perhaps subset data to only include the variables we are interested in and want to display}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 6 x 22
@@ -263,12 +244,6 @@ First, we import and clean our data:
 ## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
 ## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# Do we want to use recode() or rename()? Also, does it make more sense to leave all of the columns until we get to the 'select' r-chunk? -Adam}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{pivots}{%
 \subsection{PIVOTS}\label{pivots}}
@@ -280,34 +255,7 @@ The data we are starting with are already tidy, but for the purposes of demonstr
 \NormalTok{messy_grad <-}\StringTok{ }\NormalTok{grad }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{pivot_wider}\NormalTok{(}\DataTypeTok{names_from =}\NormalTok{ borough,}
               \DataTypeTok{values_from =}\NormalTok{ total_cohort)}
-\KeywordTok{head}\NormalTok{(messy_grad)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-## # A tibble: 6 x 25
-##   demographic cohort total_grads_n total_grads_per~ total_regents_n
-##   <chr>        <dbl>         <int>            <dbl>           <int>
-## 1 Borough To~   2001          4913             42.9            2644
-## 2 Borough To~   2002          5328             44.3            3118
-## 3 Borough To~   2003          6389             46.9            3861
-## 4 Borough To~   2004          7448             51.9            4625
-## 5 Borough To~   2005          8229             54.2            5618
-## 6 Borough To~   2006          8524             54.7            6312
-## # ... with 20 more variables: total_regents_percent_of_cohort <dbl>,
-## #   total_regents_percent_of_grads <dbl>, advanced_regents_n <int>,
-## #   advanced_regents_percent_of_cohort <dbl>,
-## #   advanced_regents_percent_of_grads <dbl>, regents_w_o_advanced_n <int>,
-## #   regents_w_o_advanced_percent_of_cohort <dbl>,
-## #   regents_w_o_advanced_percent_of_grads <dbl>, local_n <int>,
-## #   local_percent_of_cohort <dbl>, local_percent_of_grads <dbl>,
-## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
-## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>, Bronx <int>,
-## #   Brooklyn <int>, Manhattan <int>, Queens <int>, `Staten Island` <int>
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \NormalTok{clean_grad <-}\StringTok{ }\NormalTok{messy_grad }\OperatorTok{%>%}\StringTok{ }
 \StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\DataTypeTok{cols =} \KeywordTok{c}\NormalTok{(}\StringTok{"Bronx"}\OperatorTok{:}\StringTok{"Staten Island"}\NormalTok{),}
                \DataTypeTok{names_to =} \StringTok{"borough"}\NormalTok{,}
@@ -315,62 +263,10 @@ The data we are starting with are already tidy, but for the purposes of demonstr
                \DataTypeTok{values_drop_na =} \OtherTok{TRUE}\NormalTok{)}
 
 \NormalTok{clean_grad <-}\StringTok{ }\NormalTok{clean_grad[, }\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{22}\NormalTok{,}\DecValTok{3}\OperatorTok{:}\DecValTok{20}\NormalTok{)]}
-\KeywordTok{head}\NormalTok{(clean_grad)}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-## # A tibble: 6 x 22
-##   demographic borough cohort total_cohort total_grads_n total_grads_per~
-##   <chr>       <chr>    <dbl>        <int>         <int>            <dbl>
-## 1 Borough To~ Bronx     2001        11453          4913             42.9
-## 2 Borough To~ Bronx     2002        12032          5328             44.3
-## 3 Borough To~ Bronx     2003        13632          6389             46.9
-## 4 Borough To~ Bronx     2004        14364          7448             51.9
-## 5 Borough To~ Bronx     2005        15175          8229             54.2
-## 6 Borough To~ Bronx     2006        15579          8524             54.7
-## # ... with 16 more variables: total_regents_n <int>,
-## #   total_regents_percent_of_cohort <dbl>,
-## #   total_regents_percent_of_grads <dbl>, advanced_regents_n <int>,
-## #   advanced_regents_percent_of_cohort <dbl>,
-## #   advanced_regents_percent_of_grads <dbl>, regents_w_o_advanced_n <int>,
-## #   regents_w_o_advanced_percent_of_cohort <dbl>,
-## #   regents_w_o_advanced_percent_of_grads <dbl>, local_n <int>,
-## #   local_percent_of_cohort <dbl>, local_percent_of_grads <dbl>,
-## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
-## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>
-\end{verbatim}
 
 Now that we have tidied the entire dataset, we can focus on our variables of interest: enrollment and graduation for specific boroughs, cohorts and demographics.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{filtered_grad <-}\StringTok{ }\NormalTok{clean_grad }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{select}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{, }\DecValTok{16}\OperatorTok{:}\DecValTok{22}\NormalTok{)) }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{filter}\NormalTok{(demographic }\OperatorTok{==}\StringTok{ "English Language Learners"} \OperatorTok{|}
-\StringTok{         }\NormalTok{demographic }\OperatorTok{==}\StringTok{ "English Proficient Students"} \OperatorTok{|}
-\StringTok{         }\NormalTok{demographic }\OperatorTok{==}\StringTok{ "Special Education"} \OperatorTok{|}
-\StringTok{         }\NormalTok{demographic }\OperatorTok{==}\StringTok{ "General Education"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{student_characteristic =} 
-           \KeywordTok{factor}\NormalTok{(demographic, }
-                  \DataTypeTok{levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"English Language Learners"}\NormalTok{, }
-                      \StringTok{"English Proficient Students"}\NormalTok{, }
-                      \StringTok{"Special Education"}\NormalTok{, }
-                      \StringTok{"General Education"}\NormalTok{), }
-                  \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{'ELL'}\NormalTok{, }\StringTok{'EP'}\NormalTok{, }\StringTok{'SPED'}\NormalTok{, }\StringTok{'Non-SPED'}\NormalTok{)}
-\NormalTok{                  ))}
-
-\NormalTok{new_grad <-}\StringTok{ }\NormalTok{filtered_grad }\OperatorTok{%>%}
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{unclassified_n =}\NormalTok{ total_cohort }\OperatorTok{-}\StringTok{ }\NormalTok{(total_grads_n }\OperatorTok{+}\StringTok{ }\NormalTok{dropped_out_n }\OperatorTok{+}\StringTok{ }\NormalTok{still_enrolled_n),}
-         \DataTypeTok{unclassified_percent_of_cohort =} \KeywordTok{round}\NormalTok{(unclassified_n}\OperatorTok{/}\NormalTok{total_cohort }\OperatorTok{*}\StringTok{ }\DecValTok{100}\NormalTok{, }\DecValTok{1}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{head}\NormalTok{(new_grad)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{verbatim}
 ## # A tibble: 6 x 16
@@ -389,64 +285,7 @@ Now that we have tidied the entire dataset, we can focus on our variables of int
 ## #   unclassified_n <int>, unclassified_percent_of_cohort <dbl>
 \end{verbatim}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# group by relevant demographics (ELL & EP, GE & SPED)}
-\NormalTok{demographic_data <-}\StringTok{ }\NormalTok{new_grad }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(student_characteristic, cohort) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{mean_grad_pct =} \KeywordTok{mean}\NormalTok{(total_grads_percent_of_cohort),}
-            \DataTypeTok{mean_dropout_pct =} \KeywordTok{mean}\NormalTok{(dropped_out_percent_of_cohort),}
-            \DataTypeTok{mean_enrolled_pct =} \KeywordTok{mean}\NormalTok{(still_enrolled_percent_of_cohort),}
-            \DataTypeTok{mean_unclassified_pct =} \KeywordTok{mean}\NormalTok{(unclassified_percent_of_cohort))}
-
-\CommentTok{# group by borough, look at % of local students}
-\NormalTok{borough_data <-}\StringTok{ }\NormalTok{new_grad }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(borough, cohort) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{mean_local =} \KeywordTok{mean}\NormalTok{(local_percent_of_cohort),}
-            \DataTypeTok{mean_grad_pct =} \KeywordTok{mean}\NormalTok{(total_grads_percent_of_cohort),}
-            \DataTypeTok{mean_dropout_pct =} \KeywordTok{mean}\NormalTok{(dropped_out_percent_of_cohort),}
-            \DataTypeTok{mean_enrolled_pct =} \KeywordTok{mean}\NormalTok{(still_enrolled_percent_of_cohort),}
-            \DataTypeTok{mean_unclassified_pct =} \KeywordTok{mean}\NormalTok{(unclassified_percent_of_cohort))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{demographic_bar <-}\StringTok{ }\NormalTok{demographic_data }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{pivot_longer}\NormalTok{(}\DataTypeTok{cols =} \KeywordTok{contains}\NormalTok{(}\StringTok{"mean"}\NormalTok{),}
-               \DataTypeTok{names_to =} \KeywordTok{c}\NormalTok{(}\StringTok{"characteristic"}\NormalTok{, }\StringTok{".value"}\NormalTok{),}
-               \DataTypeTok{names_prefix =} \StringTok{"mean_"}\NormalTok{,}
-               \DataTypeTok{names_sep =} \StringTok{"_"}\NormalTok{)}
-
-\CommentTok{# which makes more sense?}
-\CommentTok{# Option 1 - cohort as factor(), faceted by characteristic}
-\CommentTok{# demographic_bar %>% }
-\CommentTok{#   ggplot(aes(fill = factor(cohort), x = student_characteristic, y = pct)) +}
-\CommentTok{#   geom_bar(position = "stack", stat = "identity") +}
-\CommentTok{#   theme(axis.text.x = element_text(angle = 60)) +}
-\CommentTok{#   facet_grid(~characteristic + cohort) +}
-\CommentTok{#   scale_fill_viridis_d()}
-
-\CommentTok{# Option 2 - cohort and characteristic switched}
-\NormalTok{demographic_bar }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =}\NormalTok{ characteristic, }\DataTypeTok{x =}\NormalTok{ student_characteristic, }\DataTypeTok{y =}\NormalTok{ pct)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_bar}\NormalTok{(}\DataTypeTok{position =} \StringTok{"stack"}\NormalTok{, }\DataTypeTok{stat =} \StringTok{"identity"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\CommentTok{# do we want stack or dodge for position? -Adam}
-\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{60}\NormalTok{)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{cohort) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{scale_fill_viridis_d}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
 \includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/descriptives_of_dataset-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# We can also look at the following to get a general sense of the data:}
-\CommentTok{# - total cohorts/grads, facet_wrap by borough}
-\CommentTok{# - grad percentage by student_characteristic, then can do a deeper dive by borough}
-\CommentTok{# - the above two repeated with dropout rate}
-\end{Highlighting}
-\end{Shaded}
 
 \hypertarget{data-analysis}{%
 \subsection{Data analysis}\label{data-analysis}}
@@ -456,54 +295,9 @@ All analysis were conducted in R, with heavy reliance upon the \texttt{\{tidyver
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{#report graduation by borough}
-\CommentTok{#report graduation by english language status}
-\CommentTok{#report graduation by SPED status}
-\CommentTok{#report graduation by borough & SPED status}
-\CommentTok{#report graduation by borough & english learner status}
-\end{Highlighting}
-\end{Shaded}
+\includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results_EL_graph-1.pdf}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{new_grad }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(student_characteristic }\OperatorTok{==}\StringTok{ "ELL"} \OperatorTok{|}\StringTok{ }
-\StringTok{           }\NormalTok{student_characteristic }\OperatorTok{==}\StringTok{ "EP"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Cohort =} \KeywordTok{factor}\NormalTok{(cohort)) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(student_characteristic, borough) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ student_characteristic, }
-             \DataTypeTok{y =}\NormalTok{ total_grads_percent_of_cohort)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ Cohort)) }\OperatorTok{+}\StringTok{ }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{borough) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{'Figure 1. Graduation Rates in NYC by English Learner Status'}\NormalTok{,}
-       \DataTypeTok{subtitle =} \StringTok{'Boroughs are reported separetely with lighter dots indicating more recent years'}\NormalTok{,}
-       \DataTypeTok{y =} \StringTok{'Percent of total cohort'}\NormalTok{,}
-       \DataTypeTok{x =} \StringTok{'Student Characteristic'}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results-1.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{new_grad }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{filter}\NormalTok{(student_characteristic }\OperatorTok{==}\StringTok{ "SPED"} \OperatorTok{|}\StringTok{ }
-\StringTok{           }\NormalTok{student_characteristic }\OperatorTok{==}\StringTok{ "Non-SPED"}\NormalTok{) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{Cohort =} \KeywordTok{factor}\NormalTok{(cohort)) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{group_by}\NormalTok{(student_characteristic, borough) }\OperatorTok{%>%}\StringTok{ }
-\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ student_characteristic, }
-             \DataTypeTok{y =}\NormalTok{ total_grads_percent_of_cohort)) }\OperatorTok{+}
-\StringTok{  }\KeywordTok{geom_jitter}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{color =}\NormalTok{ Cohort)) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{facet_wrap}\NormalTok{(}\OperatorTok{~}\NormalTok{borough) }\OperatorTok{+}\StringTok{ }
-\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{'Figure 1. Graduation Rates in NYC by English Learner Status'}\NormalTok{,}
-       \DataTypeTok{subtitle =} \StringTok{'Boroughs are reported separetely with lighter dots indicating more recent years'}\NormalTok{,}
-       \DataTypeTok{y =} \StringTok{'Percent of total cohort'}\NormalTok{,}
-       \DataTypeTok{x =} \StringTok{'Student Characteristic'}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results2-1.pdf}
+\includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results_SPED-1.pdf}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
