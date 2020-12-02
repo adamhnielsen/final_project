@@ -203,6 +203,15 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 
 # Results
 
+Visual inspection of Figure 1 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). From a social justice framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates. 
+    
+
+***
+
+**SPED status**
+- Gaps between SPED and non-SPED students appear relatively constant across borough
+- Some boroughs (i.e., Staten Island & Manhattan) have higher graduation percentages for both groups. 
+
 
 ```{r report_results}
 
@@ -244,6 +253,8 @@ new_grad %>%
 
 ```
 
+
+
 ```{r graph_results_SPED, echo=FALSE, fig.width = 12, fig.height = 8}
 group_means_2 <- new_grad %>%
     filter(student_characteristic == "SPED" | 
@@ -273,6 +284,18 @@ new_grad %>%
 ```
 
 # Discussion
+
+
+**Inferential statistics:** test if differences are significant
+
+**Consult experts & educational theorists:** 
+- identify potential confounding variables which explain the variation in these averages (particularly for ELL/EP); e.g.,
+    - School-wide access to funding & resources
+    - Percent of teachers that speak languages other than English,
+    - Predominant non-English language(s) is/are spoken in each borough
+    - Average qualification of SPED/ELL teachers
+    - Parental access to (and leverage of) extra-curricular educational resources
+
 
 Differences appear to be blah by blah for blah. XYZ boroughs should consider blah blah blah, based on the results. Inferential tests are recommended for next directions.
 
