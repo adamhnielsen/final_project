@@ -1,5 +1,5 @@
 ---
-title             : "EDLD 651 Final Project Draft"
+title             : "EDLD 651 Final Project"
 shorttitle        : "New York City Graduation Outcome by Borough and Student Classification"
 
 author: 
@@ -73,18 +73,14 @@ Not only will we report these outcomes across different groups, we will also exp
 
 # Methods
 
-We retrieved the data collected by the Department of Education from  
-
-Information about variables, how they were measured here
-
-Information about regents examinations here
+We retrieved data collected by the Department of Education from [*NYC OpenData*](https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek). The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
 
 ## Participants
 
-Explain participants' from what we have in data.
+The original dataset of high school students contained 22 variables and 385 rows.
 
-First, we import and clean our data:
-```{r import_and_clean}
+First, we import and clean our data to begin our analyses using the `import()` and `here()` functions from `rio` and `here` packages.
+```{r import_and_clean, include = FALSE}
 
 raw_grad <- import(here("data", "grad.csv"))
 grad <- raw_grad %>% 
@@ -96,10 +92,9 @@ summary(grad$cohort) # we see here that 'Aug 2006' needs to be changed to '2006'
 grad$cohort <-  as.numeric(sub("Aug 2006", "2006", grad$cohort))
 
 head(grad)
-
 ```
 
-## PIVOTS
+## Pivots
 
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our _ability_ to tidy data, in this segment will make the data untidy and then tidy it once more.
 
@@ -115,10 +110,11 @@ clean_grad <- messy_grad %>%
                values_drop_na = TRUE)
 
 clean_grad <- clean_grad[, c(1,21,2,22,3:20)]
-
 ```
 
-Now that we have tidied the entire dataset, we can focus on our variables of interest: enrollment and graduation for specific boroughs, cohorts and demographics.
+After tidying the entire dataset, we can focus on our variables of interest: enrollment and graduation outcomes for specific boroughs, cohort years and student classifications.
+
+Through this re-coding, and the variables recorded for each, we find that each graduation outcome category (number graduated, dropped out, still enrolled) do not sum to the total number of students in the cohort. This made clear the data was not as tidy as it initially seemed.
 
 ```{r select, filter, mutate}
 
@@ -143,13 +139,22 @@ new_grad <- filtered_grad %>%
 
 ```
 
+As shown above, we mutated the data to create a new column named `unclassified_n`, which holds the number of students in each level that are unaccounted for.
 
-```{r summary stats}
-head(new_grad)
+```{r summary stats, echo = FALSE}
+# head(new_grad)
 
 # group by relevant demographics (ELL & EP, GE & SPED)
 demographic_data <- new_grad %>% 
   group_by(student_characteristic, cohort) %>% 
+  summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+
+# for our output document (took out cohort for legibility)
+demographic_data_output <- new_grad %>% 
+  group_by(student_characteristic) %>% 
   summarize(mean_grad_pct = mean(total_grads_percent_of_cohort),
             mean_dropout_pct = mean(dropped_out_percent_of_cohort),
             mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
@@ -163,8 +168,36 @@ borough_data <- new_grad %>%
             mean_dropout_pct = mean(dropped_out_percent_of_cohort),
             mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
             mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+
+# for our output document (group by borough, take out cohort for legibility)
+borough_data_output <- new_grad %>% 
+  group_by(borough) %>% 
+  summarize(mean_local = mean(local_percent_of_cohort),
+            mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
+
+
+# group by borough, look at % of local students
+cohort_data_output <- new_grad %>% 
+  group_by(cohort) %>% 
+  summarize(mean_local = mean(local_percent_of_cohort),
+            mean_grad_pct = mean(total_grads_percent_of_cohort),
+            mean_dropout_pct = mean(dropped_out_percent_of_cohort),
+            mean_enrolled_pct = mean(still_enrolled_percent_of_cohort),
+            mean_unclassified_pct = mean(unclassified_percent_of_cohort))
 ```
 
+We can see those results visually here, first by student classification: `r kable(demographic_data_output)`. 
+
+The table shows that, of the student classifications, the SPED classification contains the largest percentage of unclassified students at roughly 14%. Notably, 6% of students with ELL classification also are also unclassified, compared to 3% of English proficient students.
+
+We also examine outcomes by borough here: `r kable(borough_data_output)`. 
+
+These unclassified students were not concentrated in any one year, shown in the table here: `r kable(cohort_data_output)`. 
+
+Additional use of the `pivot_longer()` function allowed us to further tidy the data to create a **graduation outcomes** variable, so we could see the average percentage of students for each graduation outcome, by student classification (see Figure 1).
 
 ```{r descriptives_of_dataset}
 demographic_bar <- demographic_data %>% 
@@ -173,28 +206,16 @@ demographic_bar <- demographic_data %>%
                names_prefix = "mean_",
                names_sep = "_")
 
-# which makes more sense?
-# Option 1 - cohort as factor(), faceted by characteristic
-# demographic_bar %>% 
-#   ggplot(aes(fill = factor(cohort), x = student_characteristic, y = pct)) +
-#   geom_bar(position = "stack", stat = "identity") +
-#   theme(axis.text.x = element_text(angle = 60)) +
-#   facet_grid(~characteristic + cohort) +
-#   scale_fill_viridis_d()
-
-# Option 2 - cohort and characteristic switched
 demographic_bar %>% 
   ggplot(aes(fill = characteristic, x = student_characteristic, y = pct)) +
   geom_bar(position = "stack", stat = "identity") +
   theme(axis.text.x = element_text(angle = 60)) +
   facet_wrap(~cohort) +
-  scale_fill_viridis_d()
+  scale_fill_viridis_d() +
+  labs(x = "Student Classification",
+       y = "Percentage",
+       title = "Figure 1. Student Outcomes and Classifications by Year")
 
-
-# We can also look at the following to get a general sense of the data:
-# - total cohorts/grads, facet_wrap by borough
-# - grad percentage by student_characteristic, then can do a deeper dive by borough
-# - the above two repeated with dropout rate
 ```
 
 ## Data analysis
@@ -203,21 +224,9 @@ All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` pac
 
 # Results
 
-Visual inspection of Figure 1 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough. 
+Visual inspection of Figure 2 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough. 
 
 From an equity framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates. 
-
-
-# I DON'T KNOW WHAT TABLE PEOPLE WANT HERE, I THINK WE WERE PUTTING OUR 1 TABLE ELSEWHERE, RIGHT? CAN WE DELETE THESE CHUNKS?
-
-```{r report_results}
-
-#report graduation by borough
-#report graduation by english language status
-#report graduation by SPED status
-#report graduation by borough & SPED status
-#report graduation by borough & english learner status
-```
 
 
 ```{r graph_results_EL_graph, echo=FALSE, fig.width = 12, fig.height = 8}
@@ -242,7 +251,7 @@ new_grad %>%
              size = 1.5
              ) +
   facet_wrap(~borough) + 
-  labs(title = 'Figure 1. Graduation Rates in NYC by EL Status',
+  labs(title = 'Figure 2. Graduation Rates in NYC by EL Status',
        subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
        x = 'Student Characteristic') + 
@@ -251,7 +260,7 @@ new_grad %>%
 ```
 
 
-Visual inspection of Figure 2 suggests less variability in the difference between average graduation rates of SPED vs. non-SPED students across Boroughs. Unlike ELL vs. EP students, SPED students appear to succeed at rates relative to their Borough. This may suggest support for SPED students increases proportionately to non-SPED students, which is essential from an equity framework.
+Visual inspection of Figure 3 suggests less variability in the difference between average graduation rates of SPED vs. non-SPED students across Boroughs. Unlike ELL vs. EP students, SPED students appear to succeed at rates relative to their Borough. This may suggest support for SPED students increases proportionately to non-SPED students, which is essential from an equity framework.
 
 This trend is evident when we compare the difference between these groups across districts (e.g., Staten Island & Manhattan) which perform well. Visually this looks like a shift in both mean lines, rather than in increase only for non-SPED students.
 
@@ -277,7 +286,7 @@ new_grad %>%
              size = 1.5
              ) +
   facet_wrap(~borough) + 
-  labs(title = 'Figure 2. Graduation Rates in NYC by SPED Status',
+  labs(title = 'Figure 3. Graduation Rates in NYC by SPED Status',
        subtitle = 'Dashed lines represent Borough average for each group',
        y = 'Percent of total cohort',
        x = 'Student Characteristic')+ 
@@ -291,9 +300,9 @@ For in both visual analyses——though some variability over years is evident�
 
 This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification Cluster to clearly identify differences between groups.
 
-As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future reserach incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs. EP students across borough can be minimized in a way that all students are supported adequately. 
+As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs. EP students across borough can be minimized in a way that all students are supported adequately. 
 
-We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: inequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
+We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
 
 
 \newpage

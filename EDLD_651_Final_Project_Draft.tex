@@ -37,7 +37,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-  pdftitle={EDLD 651 Final Project Draft},
+  pdftitle={EDLD 651 Final Project},
   pdfauthor={Anwesha Guha1, Heidi Iwashita1, Christopher Loan1, Adam Nielsen1, \& Aaron Rothbart1},
   pdflang={en-EN},
   pdfkeywords={keywords},
@@ -173,7 +173,7 @@
   \usepackage[shorthands=off,main=english]{babel}
 \fi
 
-\title{EDLD 651 Final Project Draft}
+\title{EDLD 651 Final Project}
 \author{Anwesha Guha\textsuperscript{1}, Heidi Iwashita\textsuperscript{1}, Christopher Loan\textsuperscript{1}, Adam Nielsen\textsuperscript{1}, \& Aaron Rothbart\textsuperscript{1}}
 \date{}
 
@@ -205,48 +205,17 @@ Not only will we report these outcomes across different groups, we will also exp
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
-We retrieved the data collected by the Department of Education from
-
-Information about variables, how they were measured here
-
-Information about regents examinations here
+We retrieved data collected by the Department of Education from \href{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}{\emph{NYC OpenData}}. The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
 
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
 
-Explain participants' from what we have in data.
+The original dataset of high school students contained 22 variables and 385 rows.
 
-First, we import and clean our data:
-
-\begin{verbatim}
-##    Length     Class      Mode 
-##       385 character character
-\end{verbatim}
-
-\begin{verbatim}
-## # A tibble: 6 x 22
-##   demographic borough cohort total_cohort total_grads_n total_grads_per~
-##   <chr>       <chr>    <dbl>        <int>         <int>            <dbl>
-## 1 Borough To~ Bronx     2001        11453          4913             42.9
-## 2 Borough To~ Bronx     2002        12032          5328             44.3
-## 3 Borough To~ Bronx     2003        13632          6389             46.9
-## 4 Borough To~ Bronx     2004        14364          7448             51.9
-## 5 Borough To~ Bronx     2005        15175          8229             54.2
-## 6 Borough To~ Bronx     2006        15579          8524             54.7
-## # ... with 16 more variables: total_regents_n <int>,
-## #   total_regents_percent_of_cohort <dbl>,
-## #   total_regents_percent_of_grads <dbl>, advanced_regents_n <int>,
-## #   advanced_regents_percent_of_cohort <dbl>,
-## #   advanced_regents_percent_of_grads <dbl>, regents_w_o_advanced_n <int>,
-## #   regents_w_o_advanced_percent_of_cohort <dbl>,
-## #   regents_w_o_advanced_percent_of_grads <dbl>, local_n <int>,
-## #   local_percent_of_cohort <dbl>, local_percent_of_grads <dbl>,
-## #   still_enrolled_n <int>, still_enrolled_percent_of_cohort <dbl>,
-## #   dropped_out_n <int>, dropped_out_percent_of_cohort <dbl>
-\end{verbatim}
+First, we import and clean our data to begin our analyses using the \texttt{import()} and \texttt{here()} functions from \texttt{rio} and \texttt{here} packages.
 
 \hypertarget{pivots}{%
-\subsection{PIVOTS}\label{pivots}}
+\subsection{Pivots}\label{pivots}}
 
 The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our \emph{ability} to tidy data, in this segment will make the data untidy and then tidy it once more.
 
@@ -266,24 +235,75 @@ The data we are starting with are already tidy, but for the purposes of demonstr
 \end{Highlighting}
 \end{Shaded}
 
-Now that we have tidied the entire dataset, we can focus on our variables of interest: enrollment and graduation for specific boroughs, cohorts and demographics.
+After tidying the entire dataset, we can focus on our variables of interest: enrollment and graduation outcomes for specific boroughs, cohort years and student classifications.
 
-\begin{verbatim}
-## # A tibble: 6 x 16
-##   demographic borough cohort total_cohort total_grads_n total_grads_per~ local_n
-##   <chr>       <chr>    <dbl>        <int>         <int>            <dbl>   <int>
-## 1 English La~ Bronx     2001         1984           388             19.6     311
-## 2 English La~ Bronx     2002         1693           333             19.7     257
-## 3 English La~ Bronx     2003         1905           391             20.5     296
-## 4 English La~ Bronx     2004         1894           640             33.8     426
-## 5 English La~ Bronx     2005         1940           694             35.8     377
-## 6 English La~ Bronx     2006         2143           791             36.9     395
-## # ... with 9 more variables: local_percent_of_cohort <dbl>,
-## #   local_percent_of_grads <dbl>, still_enrolled_n <int>,
-## #   still_enrolled_percent_of_cohort <dbl>, dropped_out_n <int>,
-## #   dropped_out_percent_of_cohort <dbl>, student_characteristic <fct>,
-## #   unclassified_n <int>, unclassified_percent_of_cohort <dbl>
-\end{verbatim}
+Through this re-coding, and the variables recorded for each, we find that each graduation outcome category (number graduated, dropped out, still enrolled) do not sum to the total number of students in the cohort. This made clear the data was not as tidy as it initially seemed.
+
+As shown above, we mutated the data to create a new column named \texttt{unclassified\_n}, which holds the number of students in each level that are unaccounted for.
+
+We can see those results visually here, first by student classification:
+
+\begin{tabular}{l|r|r|r|r}
+\hline
+student\_characteristic & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+ELL & 34.23714 & 23.10286 & 36.58571 & 6.082857\\
+\hline
+EP & 61.58000 & 11.98000 & 23.31714 & 3.125714\\
+\hline
+SPED & 24.74857 & 23.24000 & 37.77714 & 14.242857\\
+\hline
+Non-SPED & 64.27143 & 11.53714 & 22.56571 & 1.625714\\
+\hline
+\end{tabular}
+
+.
+
+The table shows that, of the student classifications, the SPED classification contains the largest percentage of unclassified students at roughly 14\%. Notably, 6\% of students with ELL classification also are also unclassified, compared to 3\% of English proficient students.
+
+We also examine outcomes by borough here:
+
+\begin{tabular}{l|r|r|r|r|r}
+\hline
+borough & mean\_local & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+Bronx & 17.38571 & 40.28571 & 20.38214 & 31.38214 & 7.967857\\
+\hline
+Brooklyn & 14.71429 & 42.75714 & 18.38929 & 33.10000 & 5.750000\\
+\hline
+Manhattan & 15.38929 & 47.38214 & 16.79643 & 30.05357 & 5.767857\\
+\hline
+Queens & 14.70714 & 46.96429 & 17.94286 & 29.92500 & 5.175000\\
+\hline
+Staten Island & 16.89643 & 53.65714 & 13.81429 & 25.84643 & 6.685714\\
+\hline
+\end{tabular}
+
+.
+
+These unclassified students were not concentrated in any one year, shown in the table here:
+
+\begin{tabular}{r|r|r|r|r|r}
+\hline
+cohort & mean\_local & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+2001 & 17.805 & 41.360 & 21.8100 & 29.4950 & 7.365\\
+\hline
+2002 & 16.015 & 40.005 & 20.4750 & 33.2950 & 6.225\\
+\hline
+2003 & 15.130 & 41.555 & 18.1950 & 35.3800 & 4.880\\
+\hline
+2004 & 16.080 & 45.485 & 16.5700 & 32.6100 & 5.340\\
+\hline
+2005 & 15.770 & 48.520 & 15.0100 & 29.0750 & 7.385\\
+\hline
+2006 & 14.965 & 53.270 & 15.0975 & 25.2875 & 6.345\\
+\hline
+\end{tabular}
+
+.
+
+Additional use of the \texttt{pivot\_longer()} function allowed us to further tidy the data to create a \textbf{graduation outcomes} variable, so we could see the average percentage of students for each graduation outcome, by student classification (see Figure 1).
 
 \includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/descriptives_of_dataset-1.pdf}
 
@@ -295,14 +315,28 @@ All analysis were conducted in R, with heavy reliance upon the \texttt{\{tidyver
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
+Visual inspection of Figure 2 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough.
+
+From an equity framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates.
+
 \includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results_EL_graph-1.pdf}
 
+Visual inspection of Figure 3 suggests less variability in the difference between average graduation rates of SPED vs.~non-SPED students across Boroughs. Unlike ELL vs.~EP students, SPED students appear to succeed at rates relative to their Borough. This may suggest support for SPED students increases proportionately to non-SPED students, which is essential from an equity framework.
+
+This trend is evident when we compare the difference between these groups across districts (e.g., Staten Island \& Manhattan) which perform well. Visually this looks like a shift in both mean lines, rather than in increase only for non-SPED students.
+
 \includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results_SPED-1.pdf}
+
+For in both visual analyses------though some variability over years is evident------annual differences are much smaller than the differences between groups (and in some cases differences between Boroughs). Overall, though, graduation rates seem to not be too different over time for either group comparison.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-Differences appear to be blah by blah for blah. XYZ boroughs should consider blah blah blah, based on the results. Inferential tests are recommended for next directions.
+This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification Cluster to clearly identify differences between groups.
+
+As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs.~EP students across borough can be minimized in a way that all students are supported adequately.
+
+We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
 
 \newpage
 
