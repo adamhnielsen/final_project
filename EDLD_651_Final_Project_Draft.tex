@@ -212,14 +212,14 @@ FILL IN ABSTRACT IF WANTED
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years, high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency. Approximately 67\% of students receiving special education services in the U.S. obtain their high school diploma, and only 66\% of English learners graduate on time from secondary education. These percentages fall short of the approximately 85\% of all high school students who graduate.
+Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years (Disability Scoop, 2019), high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency (National Center for Education Statistics, n.d.). This is especially troubling considering the lower rates of employment among adults who do not complete high school (Schifter, 2016). Approximately 67\% of students receiving special education services in the U.S. obtain their high school diploma, and only 66\% of English learners graduate on time from secondary education (Johnson, 2019). These percentages fall short of the approximately 85\% of all high school students who graduate (National Center for Education Statistics, n.d.).
 
 In light of these concerns, we decided to explore high school graduation rates for students with disabilities and with limited English proficiency as compared to general education populations. This data can be assessed to identify systematic breakdowns and disparities impacting marginalized student populations. In particular, we wanted to see if the national data was represented regionally by looking at data from New York City schools. Furthermore, to examine the impact of geographical disparities in access to educational resources, this paper will also examine graduation outcomes across New York City boroughs.
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
 
-We retrieved data collected by the Department of Education from \href{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}{\emph{NYC OpenData}}. The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
+We retrieved data collected by the Department of Education from \href{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}{\emph{NYC OpenData}}(NYC Open Data, 2019). The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
 
 \hypertarget{participants}{%
 \subsection{Participants}\label{participants}}
@@ -325,6 +325,8 @@ Additional use of the \texttt{pivot\_longer()} function allowed us to further ti
 \subsection{Data analysis}\label{data-analysis}}
 
 All analysis were conducted in R, with heavy reliance upon the \texttt{\{tidyverse\}} packages to manipulate and visualize the data.
+We used the following R versions and packages for this project:
+R (Version 4.0.2; R Core Team, 2020) and the R-packages \emph{dplyr} (Version 1.0.2; Wickham et al., 2020), \emph{forcats} (Version 0.5.0; Wickham, 2020a), \emph{ggplot2} (Version 3.3.2; Wickham, 2016), \emph{here} (Version 1.0.0; Müller, 2017), \emph{janitor} (Version 2.0.1; Firke, 2020), \emph{kableExtra} (Version 1.3.1; Zhu, 2020), \emph{knitr} (Version 1.30; Xie, 2015), \emph{papaja} (Version 0.1.0.9997; Aust \& Barth, 2020), \emph{purrr} (Version 0.3.4; Henry \& Wickham, 2020), \emph{readr} (Version 1.4.0; Wickham, Hester, \& Francois, 2018), \emph{rio} (Version 0.5.16; Chan, Chan, Leeper, \& Becker, 2018), \emph{stringr} (Version 1.4.0; Wickham, 2019), \emph{tibble} (Version 3.0.4; Müller \& Wickham, 2020), \emph{tidyr} (Version 1.1.2; Wickham, 2020b), and \emph{tidyverse} (Version 1.3.0; Wickham, Averick, et al., 2019).
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -362,8 +364,71 @@ We pose a few considerations in an exploration of potentially confounding variab
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-R-papaja}{}%
+Aust, F., \& Barth, M. (2020). \emph{papaja: Create APA manuscripts with R Markdown}. Retrieved from \url{https://github.com/crsh/papaja}
+
 \leavevmode\hypertarget{ref-burke2015early}{}%
-Burke, A. (2015). Early identification of high school graduation outcomes in oregon leadership network schools. REL 2015-079. \emph{Regional Educational Laboratory Northwest}.
+Burke, A. (2015). Early identification of high school graduation outcomes in oregon leadership network schools. \emph{Regional Educational Laboratory Northwest}.
+
+\leavevmode\hypertarget{ref-R-rio}{}%
+Chan, C.-h., Chan, G. C., Leeper, T. J., \& Becker, J. (2018). \emph{Rio: A swiss-army knife for data file i/o}.
+
+\leavevmode\hypertarget{ref-Graduati54:online}{}%
+Disability Scoop. (2019). \emph{Graduation rate for students with disabilities shows improvement}. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
+
+\leavevmode\hypertarget{ref-R-janitor}{}%
+Firke, S. (2020). \emph{Janitor: Simple tools for examining and cleaning dirty data}. Retrieved from \url{https://CRAN.R-project.org/package=janitor}
+
+\leavevmode\hypertarget{ref-R-purrr}{}%
+Henry, L., \& Wickham, H. (2020). \emph{Purrr: Functional programming tools}. Retrieved from \url{https://CRAN.R-project.org/package=purrr}
+
+\leavevmode\hypertarget{ref-johnson2019effects}{}%
+Johnson, A. (2019). The effects of english learner classification on high school graduation and college attendance. \emph{AERA Open}, \emph{5}(2), 2332858419850801.
+
+\leavevmode\hypertarget{ref-R-here}{}%
+Müller, K. (2017). \emph{Here: A simpler way to find your files}. Retrieved from \url{https://CRAN.R-project.org/package=here}
+
+\leavevmode\hypertarget{ref-R-tibble}{}%
+Müller, K., \& Wickham, H. (2020). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
+
+\leavevmode\hypertarget{ref-Table1Pu71:online}{}%
+National Center for Education Statistics. (n.d.). \emph{Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17}. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
+
+\leavevmode\hypertarget{ref-2005201053:online}{}%
+NYC Open Data. (2019). \emph{2005-2010 graduation outcomes - by borough}. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
+
+\leavevmode\hypertarget{ref-R-base}{}%
+R Core Team. (2020). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
+
+\leavevmode\hypertarget{ref-schifter2016using}{}%
+Schifter, L. A. (2016). Using survival analysis to understand graduation of students with disabilities. \emph{Exceptional Children}, \emph{82}(4), 479--496.
+
+\leavevmode\hypertarget{ref-R-ggplot2}{}%
+Wickham, H. (2016). \emph{Ggplot2: Elegant graphics for data analysis}. Springer-Verlag New York. Retrieved from \url{https://ggplot2.tidyverse.org}
+
+\leavevmode\hypertarget{ref-R-stringr}{}%
+Wickham, H. (2019). \emph{Stringr: Simple, consistent wrappers for common string operations}. Retrieved from \url{https://CRAN.R-project.org/package=stringr}
+
+\leavevmode\hypertarget{ref-R-forcats}{}%
+Wickham, H. (2020a). \emph{Forcats: Tools for working with categorical variables (factors)}. Retrieved from \url{https://CRAN.R-project.org/package=forcats}
+
+\leavevmode\hypertarget{ref-R-tidyr}{}%
+Wickham, H. (2020b). \emph{Tidyr: Tidy messy data}. Retrieved from \url{https://CRAN.R-project.org/package=tidyr}
+
+\leavevmode\hypertarget{ref-R-tidyverse}{}%
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., \ldots{} Yutani, H. (2019). Welcome to the tidyverse. \emph{Journal of Open Source Software}, \emph{4}(43), 1686. \url{https://doi.org/10.21105/joss.01686}
+
+\leavevmode\hypertarget{ref-R-dplyr}{}%
+Wickham, H., François, R., Henry, L., \& Müller, K. (2020). \emph{Dplyr: A grammar of data manipulation}. Retrieved from \url{https://CRAN.R-project.org/package=dplyr}
+
+\leavevmode\hypertarget{ref-R-readr}{}%
+Wickham, H., Hester, J., \& Francois, R. (2018). \emph{Readr: Read rectangular text data}. Retrieved from \url{https://CRAN.R-project.org/package=readr}
+
+\leavevmode\hypertarget{ref-R-knitr}{}%
+Xie, Y. (2015). \emph{Dynamic documents with R and knitr} (2nd ed.). Boca Raton, Florida: Chapman; Hall/CRC. Retrieved from \url{https://yihui.org/knitr/}
+
+\leavevmode\hypertarget{ref-R-kableExtra}{}%
+Zhu, H. (2020). \emph{KableExtra: Construct complex table with 'kable' and pipe syntax}. Retrieved from \url{https://CRAN.R-project.org/package=kableExtra}
 
 \endgroup
 

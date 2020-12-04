@@ -62,17 +62,19 @@ library(rio)
 library(here)
 library(knitr)
 theme_set(theme_minimal())
-r_refs("r-references-final-project.bib") # we'll have to actually add this if we cite the packages, data, etc. (HEIDI)
+r_refs("r-references-final-project.bib") 
+my_citation <- cite_r(file = "r-references-final-project.bib")
+# I have updated the citations and references in the .bib file. -Heidi
 ```
 
 # Introduction
-Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years, high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency. Approximately 67% of students receiving special education services in the U.S. obtain their high school diploma, and only 66% of English learners graduate on time from secondary education. These percentages fall short of the approximately 85% of all high school students who graduate. 
+Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years [@Graduati54:online], high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency [@Table1Pu71:online]. This is especially troubling considering the lower rates of employment among adults who do not complete high school [@schifter2016using]. Approximately 67% of students receiving special education services in the U.S. obtain their high school diploma, and only 66% of English learners graduate on time from secondary education [@johnson2019effects]. These percentages fall short of the approximately 85% of all high school students who graduate [@Table1Pu71:online]. 
 
 In light of these concerns, we decided to explore high school graduation rates for students with disabilities and with limited English proficiency as compared to general education populations. This data can be assessed to identify systematic breakdowns and disparities impacting marginalized student populations. In particular, we wanted to see if the national data was represented regionally by looking at data from New York City schools. Furthermore, to examine the impact of geographical disparities in access to educational resources, this paper will also examine graduation outcomes across New York City boroughs.
 
 # Methods
 
-We retrieved data collected by the Department of Education from [*NYC OpenData*](https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek). The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
+We retrieved data collected by the Department of Education from [*NYC OpenData*](https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek)[@2005201053:online]. The data contains four-year graduation outcomes for the cohorts of 2001 through 2006 (classes of 2005 - 2010). According to the website, graduates are defined as those students earning either a Local or Regents diploma and exclude those earning either a special education (IEP) diploma or GED. Additionally, students who were in a school for less than five months are not included in the school cohort data. The data was last updated in April 2019.
 
 ## Participants
 
@@ -220,6 +222,8 @@ demographic_bar %>%
 ## Data analysis
 
 All analysis were conducted in R, with heavy reliance upon the `{tidyverse}` packages to manipulate and visualize the data.
+We used the following R versions and packages for this project:
+R [Version 4.0.2; @R-base] and the R-packages *dplyr* [Version 1.0.2; @R-dplyr], *forcats* [Version 0.5.0; @R-forcats], *ggplot2* [Version 3.3.2; @R-ggplot2], *here* [Version 1.0.0; @R-here], *janitor* [Version 2.0.1; @R-janitor], *kableExtra* [Version 1.3.1; @R-kableExtra], *knitr* [Version 1.30; @R-knitr], *papaja* [Version 0.1.0.9997; @R-papaja], *purrr* [Version 0.3.4; @R-purrr], *readr* [Version 1.4.0; @R-readr], *rio* [Version 0.5.16; @R-rio], *stringr* [Version 1.4.0; @R-stringr], *tibble* [Version 3.0.4; @R-tibble], *tidyr* [Version 1.1.2; @R-tidyr], and *tidyverse* [Version 1.3.0; @R-tidyverse].
 
 # Results
 
@@ -296,7 +300,6 @@ For in both visual analyses——though some variability over years is evident�
 
 # Discussion
 
-
 This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification Cluster to clearly identify differences between groups.
 
 As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs. EP students across borough can be minimized in a way that all students are supported adequately. 
@@ -304,7 +307,6 @@ As this was a purely descriptive analysis, we recommend inferential statistics t
 We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.[@burke2015early]
 
 \newpage
-
 # References
 \begingroup
 \setlength{\parindent}{-0.5in}
