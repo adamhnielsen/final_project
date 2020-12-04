@@ -140,6 +140,20 @@
 % \setlength{\parindent}{0.5in}
 % \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
 % \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\HyOrg@maketitle}
@@ -198,9 +212,9 @@ FILL IN ABSTRACT IF WANTED
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-We explore proportion of graduation (outcome), across several categorical variables. In particular, we plan to focus on comparisons of two groups who have historically had unequal access to resources: English language learners (ELL) vs.~English proficient (EP) students \& Special Education (SPED) status vs.~non-SPED status.
+Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years, high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency. Approximately 67\% of students receiving special education services in the U.S. obtain their high school diploma, and only 66\% of English learners graduate on time from secondary education. These percentages fall short of the approximately 85\% of all high school students who graduate.
 
-Not only will we report these outcomes across different groups, we will also explore these across boroughs, too, to see if these groups are succeeding equally across boroughs----as measured by graduation outcomes----compared to the English proficient students in their boroughs.
+In light of these concerns, we decided to explore high school graduation rates for students with disabilities and with limited English proficiency as compared to general education populations. This data can be assessed to identify systematic breakdowns and disparities impacting marginalized student populations. In particular, we wanted to see if the national data was represented regionally by looking at data from New York City schools. Furthermore, to examine the impact of geographical disparities in access to educational resources, this paper will also examine graduation outcomes across New York City boroughs.
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
@@ -336,7 +350,7 @@ This project leveraged public data to determine differential graduation outcomes
 
 As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs.~EP students across borough can be minimized in a way that all students are supported adequately.
 
-We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
+We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.(Burke, 2015)
 
 \newpage
 
@@ -348,6 +362,8 @@ We pose a few considerations in an exploration of potentially confounding variab
 \setlength{\leftskip}{0.5in}
 
 \hypertarget{refs}{}
+\leavevmode\hypertarget{ref-burke2015early}{}%
+Burke, A. (2015). Early identification of high school graduation outcomes in oregon leadership network schools. REL 2015-079. \emph{Regional Educational Laboratory Northwest}.
 
 \endgroup
 
