@@ -140,7 +140,10 @@ new_grad <- filtered_grad %>%
 
 ```
 
-As shown above, we mutated the data to create a new column named `unclassified_n`, which holds the number of students in each level that are unaccounted for.
+We mutated the data to create a new column named `unclassified_n`, which holds the number of students in each level that are unaccounted for. The calculations are below.
+
+$$unclassified_n = totalcohort - (totalgrads + dropped out + stillenrolled)$$
+$$unclassified_{pct} = \frac{unclassified_n}{totalcohort}$$
 
 ```{r summary stats, echo = FALSE}
 # head(new_grad)

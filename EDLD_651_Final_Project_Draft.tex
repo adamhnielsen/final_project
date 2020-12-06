@@ -140,20 +140,6 @@
 % \setlength{\parindent}{0.5in}
 % \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
-% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
-% See https://github.com/crsh/papaja/issues/292
-\makeatletter
-\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
-  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
-
-\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
-  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
-  {-\z@\relax}%
-  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
-\makeatother
-
 % \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\HyOrg@maketitle}
@@ -374,7 +360,7 @@ Burke, A. (2015). Early identification of high school graduation outcomes in ore
 Chan, C.-h., Chan, G. C., Leeper, T. J., \& Becker, J. (2018). \emph{Rio: A swiss-army knife for data file i/o}.
 
 \leavevmode\hypertarget{ref-Graduati54:online}{}%
-Disability Scoop. (2019). \emph{Graduation rate for students with disabilities shows improvement}. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
+Disability Scoop. (2019). Graduation rate for students with disabilities shows improvement. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
 
 \leavevmode\hypertarget{ref-R-janitor}{}%
 Firke, S. (2020). \emph{Janitor: Simple tools for examining and cleaning dirty data}. Retrieved from \url{https://CRAN.R-project.org/package=janitor}
@@ -392,10 +378,10 @@ Müller, K. (2017). \emph{Here: A simpler way to find your files}. Retrieved fro
 Müller, K., \& Wickham, H. (2020). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
 
 \leavevmode\hypertarget{ref-Table1Pu71:online}{}%
-National Center for Education Statistics. (n.d.). \emph{Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17}. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
+National Center for Education Statistics. (n.d.). Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
 
 \leavevmode\hypertarget{ref-2005201053:online}{}%
-NYC Open Data. (2019). \emph{2005-2010 graduation outcomes - by borough}. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
+NYC Open Data. (2019). 2005-2010 graduation outcomes - by borough. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
 
 \leavevmode\hypertarget{ref-R-base}{}%
 R Core Team. (2020). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
