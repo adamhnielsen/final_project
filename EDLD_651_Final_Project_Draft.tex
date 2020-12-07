@@ -40,7 +40,7 @@
   pdftitle={EDLD 651 Final Project},
   pdfauthor={Anwesha Guha1, Heidi Iwashita1, Christopher Loan1, Adam Nielsen1, \& Aaron Rothbart1},
   pdflang={en-EN},
-  pdfkeywords={keywords},
+  pdfkeywords={special education, ELL, English language learner, high school, graduation, educational equity, New York City},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
@@ -140,6 +140,20 @@
 % \setlength{\parindent}{0.5in}
 % \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
 % \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\HyOrg@maketitle}
@@ -151,17 +165,14 @@
   {\section*{\protect\normalfont{\@title}}}
   {}{\typeout{Failed to patch title.}}
 \makeatother
-\shorttitle{New York City Graduation Outcome by Borough and Student Classification}
-\keywords{keywords\newline\indent Word count: X}
+\shorttitle{New York City Graduation Outcomes}
+\keywords{special education, ELL, English language learner, high school, graduation, educational equity, New York City\newline\indent Word count: 1257}
 \DeclareDelayedFloatFlavor{ThreePartTable}{table}
 \DeclareDelayedFloatFlavor{lltable}{table}
 \DeclareDelayedFloatFlavor*{longtable}{table}
 \makeatletter
 \renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
 \makeatother
-\usepackage{lineno}
-
-\linenumbers
 \usepackage{csquotes}
 \raggedbottom
 \setlength{\parskip}{0pt}
@@ -174,6 +185,13 @@
 \fi
 
 \title{EDLD 651 Final Project}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{New York City Graduation Outcome by Borough and Student Classification}
 \author{Anwesha Guha\textsuperscript{1}, Heidi Iwashita\textsuperscript{1}, Christopher Loan\textsuperscript{1}, Adam Nielsen\textsuperscript{1}, \& Aaron Rothbart\textsuperscript{1}}
 \date{}
 
@@ -187,7 +205,9 @@ All work done herein represents contributions from all authors equally. Author o
 \affiliation{\vspace{0.5cm}\textsuperscript{1} University of Oregon}
 
 \abstract{
-FILL IN ABSTRACT IF WANTED
+School districts are required to provide appropriate and equitable educational opportunities to all students, regardless of English proficiency and disability status (Johnson, 2019). Yet there have been widespread indications that the U.S. public education system has failed to ensure that all students have the necessary supports to complete high school and enter the workplace (Schifter, 2016). This can be seen by the fact that high school graduation rates for students with disabilities and students with limited English proficiency have lagged behind English-proficient (EP) peers in general education classes (National Center for Education Statistics, n.d.).
+
+In this paper, we analyzed data collected by the Department of Education from New York City (NYC Open Data, 2019) to determine whether there were disparities in graduation outcomes for students with special education status and English language learner status in New York City for the classes of 2005-2010. Furthermore, since New York City is divided into boroughs each of which has different demographic and environmental factors that could impact educational opportunities, the data offered us the opportunity to examine differences in graduation rates of these groups across boroughs. Results were consistent with our hypothesis that graduation outcomes were significantly different between ELL and EP students, and between students in special education and students in general education. Results also showed differences in graduation rates for these groups across boroughs, with certain boroughs (e.g.~Staten Island) showing significantly larger gaps. As school districts across the U.S. are starting to become increasingly mindful of the importance of inclusion and equity, our paper may serve to highlight these issues and help inform the systematic improvements necessary to reduce barriers experienced by students with limited English proficiency and students with disabilities in obtaining a high school diploma.
 }
 
 
@@ -198,7 +218,7 @@ FILL IN ABSTRACT IF WANTED
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years (Disability Scoop, 2019), high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities and students with limited English proficiency (Burke, 2015). This is especially troubling considering the lower rates of employment among adults who do not complete high school (Schifter, 2016). Approximately 67\% of students receiving special education services in the U.S. obtain their high school diploma, and only 66\% of English learners graduate on time from secondary education (Johnson, 2019; National Center for Education Statistics, n.d.). These percentages fall short of the approximately 85\% of all high school students who graduate (National Center for Education Statistics, n.d.).
+Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years (Disability Scoop, 2019), high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities, i.e.~students receiving special education services (SPED) and students with limited English proficiency, i.e.~English language learners (ELL) (Burke, 2015). This is especially troubling considering the lower rates of employment among adults who do not complete high school (Schifter, 2016). Approximately 67\% of SPED student in the U.S. obtain their high school diploma, and only 66\% of ELL students graduate on time from secondary education (Johnson, 2019; National Center for Education Statistics, n.d.). These percentages fall short of the approximately 85\% of all high school students who graduate (National Center for Education Statistics, n.d.).
 
 In light of these concerns, we decided to explore high school graduation rates for students with disabilities and with limited English proficiency as compared to general education populations. This data can be assessed to identify systematic breakdowns and disparities impacting marginalized student populations. In particular, we wanted to see if the national data was represented regionally by looking at data from New York City schools. Furthermore, to examine the impact of geographical disparities in access to educational resources, this paper will also examine graduation outcomes across New York City boroughs.
 
@@ -212,12 +232,12 @@ We retrieved data collected by the Department of Education from \href{https://da
 
 The original dataset of high school students contained 22 variables and 385 rows.
 
-First, we import and clean our data to begin our analyses using the \texttt{import()} and \texttt{here()} functions from \texttt{rio} and \texttt{here} packages.
+First, we imported and cleaned our data to begin our analyses using the \texttt{import()} and \texttt{here()} functions from \texttt{rio} and \texttt{here} packages.
 
 \hypertarget{pivots}{%
 \subsection{Pivots}\label{pivots}}
 
-The data we are starting with are already tidy, but for the purposes of demonstrating our rather acute proficiency in our \emph{ability} to tidy data, in this segment will make the data untidy and then tidy it once more.
+The data we started with appeared to already be tidy, but for the purposes of demonstrating our proficiency in \emph{ability} to tidy data, in this segment we will make the data untidy and then tidy it once more.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -235,11 +255,14 @@ The data we are starting with are already tidy, but for the purposes of demonstr
 \end{Highlighting}
 \end{Shaded}
 
-After tidying the entire dataset, we can focus on our variables of interest: enrollment and graduation outcomes for specific boroughs, cohort years and student classifications.
+After tidying the entire dataset, we were able to focus on our variables of interest: enrollment and graduation outcomes for specific boroughs, cohort years and student classifications.
 
-Through this re-coding, and the variables recorded for each, we find that each graduation outcome category (number graduated, dropped out, still enrolled) do not sum to the total number of students in the cohort. This made clear the data was not as tidy as it initially seemed.
+Through this re-coding, and the variables recorded for each, we found that each graduation outcome category (number graduated, dropped out, still enrolled) do not sum to the total number of students in the cohort. This made clear the data was not as tidy as it initially seemed.
 
-As shown above, we mutated the data to create a new column named \texttt{unclassified\_n}, which holds the number of students in each level that are unaccounted for.
+We mutated the data to create a new column named \texttt{unclassified\_n}, which holds the number of students in each level that are unaccounted for. The calculations are below.
+
+\[unclassified_n = totalcohort - (totalgrads + dropped out + stillenrolled)\]
+\[unclassified_{pct} = \frac{unclassified_n}{totalcohort}\]
 
 We can see those results visually here, first by student classification:
 
@@ -261,7 +284,7 @@ Non-SPED & 64.27143 & 11.53714 & 22.56571 & 1.625714\\
 
 The table shows that, of the student classifications, the SPED classification contains the largest percentage of unclassified students at roughly 14\%. Notably, 6\% of students with ELL classification also are also unclassified, compared to 3\% of English proficient students.
 
-We also examine outcomes by borough here:
+We also examined outcomes by borough here:
 
 \begin{tabular}{l|r|r|r|r|r}
 \hline
@@ -317,7 +340,7 @@ R (Version 4.0.2; R Core Team, 2020) and the R-packages \emph{dplyr} (Version 1.
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-Visual inspection of Figure 2 demonstrates heterogeneity in the gaps between ELL and EP students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough.
+Visual inspection of Figure 2 demonstrates heterogeneity in the gaps between ELL and English proficient (EP) students. Certain Boroughs (e.g., Staten Island) have much larger gaps between proficiency than others (e.g., Brooklyn). This is most easily seen from difference in the dashed lines which represent the means of each group within a given Borough.
 
 From an equity framework, it is concerning that this gap is not equal across boroughs. Ideally, any difference in graduation based on EL status between students would be constant despite location. Without follow-ups to gather more qualitative (or highly dimensional quantitative) data, it is difficult to explain why Boroughs with higher EP graduation rates do not have correspondingly higher ELL graduation rates.
 
@@ -334,9 +357,9 @@ For in both visual analyses------though some variability over years is evident--
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification Cluster to clearly identify differences between groups.
+This project leveraged public data to determine differential graduation outcomes across student classification status. Specifically, we compared differences between (i) ELL and EP as well as (ii) SPED and non-SPED across boroughs. We incorporated several years of data and visualized these as a jittered scatter plot with mean lines at each Borough and student-classification cluster to clearly identify differences between groups.
 
-As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs.~EP students across borough can be minimized in a way that all students are supported adequately.
+As this was a purely descriptive analysis, we recommend inferential statistics to explore the significance of these group differences. Furthermore, we suggest future research incorporate experts and educational theorists with the purpose of explaining these differences. Through greater explanation and exploration, we hope differences in support for ELL vs.~English proficient (EP) students across borough can be minimized in a way that all students are supported adequately.
 
 We pose a few considerations in an exploration of potentially confounding variables which explain the variation in these averages (particularly for ELL/EP). These include but are not limited to: unequal access to resources by all portions of the school, percent of teachers that speak languages other than English, predominant non-English language(s) is/are spoken in each borough, Average qualification of SPED/ELL teachers, and parental access to (and leverage of) extra-curricular educational resources.
 
@@ -360,7 +383,7 @@ Burke, A. (2015). Early identification of high school graduation outcomes in ore
 Chan, C.-h., Chan, G. C., Leeper, T. J., \& Becker, J. (2018). \emph{Rio: A swiss-army knife for data file i/o}.
 
 \leavevmode\hypertarget{ref-Graduati54:online}{}%
-Disability Scoop. (2019). Graduation rate for students with disabilities shows improvement. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
+Disability Scoop. (2019). \emph{Graduation rate for students with disabilities shows improvement}. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
 
 \leavevmode\hypertarget{ref-R-janitor}{}%
 Firke, S. (2020). \emph{Janitor: Simple tools for examining and cleaning dirty data}. Retrieved from \url{https://CRAN.R-project.org/package=janitor}
@@ -378,10 +401,10 @@ Müller, K. (2017). \emph{Here: A simpler way to find your files}. Retrieved fro
 Müller, K., \& Wickham, H. (2020). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
 
 \leavevmode\hypertarget{ref-Table1Pu71:online}{}%
-National Center for Education Statistics. (n.d.). Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
+National Center for Education Statistics. (n.d.). \emph{Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17}. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
 
 \leavevmode\hypertarget{ref-2005201053:online}{}%
-NYC Open Data. (2019). 2005-2010 graduation outcomes - by borough. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
+NYC Open Data. (2019). \emph{2005-2010 graduation outcomes - by borough}. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
 
 \leavevmode\hypertarget{ref-R-base}{}%
 R Core Team. (2020). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
