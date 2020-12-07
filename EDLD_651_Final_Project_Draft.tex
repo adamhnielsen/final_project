@@ -140,20 +140,6 @@
 % \setlength{\parindent}{0.5in}
 % \setlength{\parskip}{0pt plus 0pt minus 0pt}
 
-% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
-% See https://github.com/crsh/papaja/issues/292
-\makeatletter
-\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
-  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
-  {-1em}%
-  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
-
-\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
-  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
-  {-\z@\relax}%
-  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
-\makeatother
-
 % \usepackage{etoolbox}
 \makeatletter
 \patchcmd{\HyOrg@maketitle}
@@ -218,7 +204,7 @@ In this paper, we analyzed data collected by the Department of Education from Ne
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years (Disability Scoop, 2019), high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities, i.e.~students receiving special education services (SPED) and students with limited English proficiency, i.e.~English language learners (ELL) (Burke, 2015). This is especially troubling considering the lower rates of employment among adults who do not complete high school (Schifter, 2016). Approximately 67\% of SPED student in the U.S. obtain their high school diploma, and only 66\% of ELL students graduate on time from secondary education (Johnson, 2019; National Center for Education Statistics, n.d.). These percentages fall short of the approximately 85\% of all high school students who graduate (National Center for Education Statistics, n.d.).
+Now more than ever, it is crucial to address systematic disparities in education. Though there has been modest improvement in recent years (Disability Scoop, 2019), high school graduation rates still are significantly lower in specific groups who have historically received unequal access to resources, in particular students with disabilities, i.e.~students receiving special education services (SPED) and students with limited English proficiency, i.e.~English language learners (ELL) (Burke, 2015). This is especially troubling considering the lower rates of employment among adults who do not complete high school (Schifter, 2016). Approximately 67\% of SPED students in the U.S. obtain their high school diploma, and only 66\% of ELL students graduate on time from secondary education (Johnson, 2019; National Center for Education Statistics, n.d.). These percentages fall short of the approximately 85\% of all high school students who graduate (National Center for Education Statistics, n.d.).
 
 In light of these concerns, we decided to explore high school graduation rates for students with disabilities and with limited English proficiency as compared to general education populations. This data can be assessed to identify systematic breakdowns and disparities impacting marginalized student populations. In particular, we wanted to see if the national data was represented regionally by looking at data from New York City schools. Furthermore, to examine the impact of geographical disparities in access to educational resources, this paper will also examine graduation outcomes across New York City boroughs.
 
@@ -264,67 +250,109 @@ We mutated the data to create a new column named \texttt{unclassified\_n}, which
 \[unclassified_n = totalcohort - (totalgrads + dropped out + stillenrolled)\]
 \[unclassified_{pct} = \frac{unclassified_n}{totalcohort}\]
 
-We can see those results visually here, first by student classification:
+We can see those results visually here, first by student classification (split into two tables for the sake of legibility, as are the others):
 
-\begin{tabular}{l|r|r|r|r}
+\begin{tabular}{l|r|r}
 \hline
-student\_characteristic & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+student\_characteristic & mean\_grad\_pct & mean\_dropout\_pct\\
 \hline
-ELL & 34.23714 & 23.10286 & 36.58571 & 6.082857\\
+ELL & 34.23714 & 23.10286\\
 \hline
-EP & 61.58000 & 11.98000 & 23.31714 & 3.125714\\
+EP & 61.58000 & 11.98000\\
 \hline
-SPED & 24.74857 & 23.24000 & 37.77714 & 14.242857\\
+SPED & 24.74857 & 23.24000\\
 \hline
-Non-SPED & 64.27143 & 11.53714 & 22.56571 & 1.625714\\
+Non-SPED & 64.27143 & 11.53714\\
 \hline
 \end{tabular}
 
-.
+\begin{tabular}{l|r|r}
+\hline
+student\_characteristic & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+ELL & 36.58571 & 6.082857\\
+\hline
+EP & 23.31714 & 3.125714\\
+\hline
+SPED & 37.77714 & 14.242857\\
+\hline
+Non-SPED & 22.56571 & 1.625714\\
+\hline
+\end{tabular}
 
 The table shows that, of the student classifications, the SPED classification contains the largest percentage of unclassified students at roughly 14\%. Notably, 6\% of students with ELL classification also are also unclassified, compared to 3\% of English proficient students.
 
 We also examined outcomes by borough here:
 
-\begin{tabular}{l|r|r|r|r|r}
+\begin{tabular}{l|r|r|r}
 \hline
-borough & mean\_local & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+borough & mean\_local & mean\_grad\_pct & mean\_dropout\_pct\\
 \hline
-Bronx & 17.38571 & 40.28571 & 20.38214 & 31.38214 & 7.967857\\
+Bronx & 17.38571 & 40.28571 & 20.38214\\
 \hline
-Brooklyn & 14.71429 & 42.75714 & 18.38929 & 33.10000 & 5.750000\\
+Brooklyn & 14.71429 & 42.75714 & 18.38929\\
 \hline
-Manhattan & 15.38929 & 47.38214 & 16.79643 & 30.05357 & 5.767857\\
+Manhattan & 15.38929 & 47.38214 & 16.79643\\
 \hline
-Queens & 14.70714 & 46.96429 & 17.94286 & 29.92500 & 5.175000\\
+Queens & 14.70714 & 46.96429 & 17.94286\\
 \hline
-Staten Island & 16.89643 & 53.65714 & 13.81429 & 25.84643 & 6.685714\\
+Staten Island & 16.89643 & 53.65714 & 13.81429\\
 \hline
 \end{tabular}
 
-.
+\begin{tabular}{l|r|r}
+\hline
+borough & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+Bronx & 31.38214 & 7.967857\\
+\hline
+Brooklyn & 33.10000 & 5.750000\\
+\hline
+Manhattan & 30.05357 & 5.767857\\
+\hline
+Queens & 29.92500 & 5.175000\\
+\hline
+Staten Island & 25.84643 & 6.685714\\
+\hline
+\end{tabular}
 
 These unclassified students were not concentrated in any one year, shown in the table here:
 
-\begin{tabular}{r|r|r|r|r|r}
+\begin{tabular}{r|r|r|r}
 \hline
-cohort & mean\_local & mean\_grad\_pct & mean\_dropout\_pct & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+cohort & mean\_local & mean\_grad\_pct & mean\_dropout\_pct\\
 \hline
-2001 & 17.805 & 41.360 & 21.8100 & 29.4950 & 7.365\\
+2001 & 17.805 & 41.360 & 21.8100\\
 \hline
-2002 & 16.015 & 40.005 & 20.4750 & 33.2950 & 6.225\\
+2002 & 16.015 & 40.005 & 20.4750\\
 \hline
-2003 & 15.130 & 41.555 & 18.1950 & 35.3800 & 4.880\\
+2003 & 15.130 & 41.555 & 18.1950\\
 \hline
-2004 & 16.080 & 45.485 & 16.5700 & 32.6100 & 5.340\\
+2004 & 16.080 & 45.485 & 16.5700\\
 \hline
-2005 & 15.770 & 48.520 & 15.0100 & 29.0750 & 7.385\\
+2005 & 15.770 & 48.520 & 15.0100\\
 \hline
-2006 & 14.965 & 53.270 & 15.0975 & 25.2875 & 6.345\\
+2006 & 14.965 & 53.270 & 15.0975\\
 \hline
 \end{tabular}
 
-.
+\begin{tabular}{r|r|r}
+\hline
+cohort & mean\_enrolled\_pct & mean\_unclassified\_pct\\
+\hline
+2001 & 29.4950 & 7.365\\
+\hline
+2002 & 33.2950 & 6.225\\
+\hline
+2003 & 35.3800 & 4.880\\
+\hline
+2004 & 32.6100 & 5.340\\
+\hline
+2005 & 29.0750 & 7.385\\
+\hline
+2006 & 25.2875 & 6.345\\
+\hline
+\end{tabular}
 
 Additional use of the \texttt{pivot\_longer()} function allowed us to further tidy the data to create a \textbf{graduation outcomes} variable, so we could see the average percentage of students for each graduation outcome, by student classification (see Figure 1).
 
@@ -352,7 +380,7 @@ This trend is evident when we compare the difference between these groups across
 
 \includegraphics{EDLD_651_Final_Project_Draft_files/figure-latex/graph_results_SPED-1.pdf}
 
-For in both visual analyses------though some variability over years is evident------annual differences are much smaller than the differences between groups (and in some cases differences between Boroughs). Overall, though, graduation rates seem to not be too different over time for either group comparison.
+For both visual analyses------though some variability over years is evident------annual differences are much smaller than the differences between groups (and in some cases differences between Boroughs). Overall, though, graduation rates seem to not be too different over time for either group comparison.
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -383,7 +411,7 @@ Burke, A. (2015). Early identification of high school graduation outcomes in ore
 Chan, C.-h., Chan, G. C., Leeper, T. J., \& Becker, J. (2018). \emph{Rio: A swiss-army knife for data file i/o}.
 
 \leavevmode\hypertarget{ref-Graduati54:online}{}%
-Disability Scoop. (2019). \emph{Graduation rate for students with disabilities shows improvement}. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
+Disability Scoop. (2019). Graduation rate for students with disabilities shows improvement. \url{https://www.disabilityscoop.com/2019/01/30/graduation-rate-shows-improvement/25962/\#:~:text=For\%20the\%202016\%2D2017\%20school,that\%20the\%20rate\%20has\%20increased.}
 
 \leavevmode\hypertarget{ref-R-janitor}{}%
 Firke, S. (2020). \emph{Janitor: Simple tools for examining and cleaning dirty data}. Retrieved from \url{https://CRAN.R-project.org/package=janitor}
@@ -401,10 +429,10 @@ Müller, K. (2017). \emph{Here: A simpler way to find your files}. Retrieved fro
 Müller, K., \& Wickham, H. (2020). \emph{Tibble: Simple data frames}. Retrieved from \url{https://CRAN.R-project.org/package=tibble}
 
 \leavevmode\hypertarget{ref-Table1Pu71:online}{}%
-National Center for Education Statistics. (n.d.). \emph{Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17}. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
+National Center for Education Statistics. (n.d.). Table 1. Public high school 4-year adjusted cohort graduation rate (acgr), by race/ethnicity and selected demographic characteristics for the united states, the 50 states, and the district of columbia: School year 2016--17. \url{https://nces.ed.gov/ccd/tables/ACGR_RE_and_characteristics_2016-17.asp}.
 
 \leavevmode\hypertarget{ref-2005201053:online}{}%
-NYC Open Data. (2019). \emph{2005-2010 graduation outcomes - by borough}. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
+NYC Open Data. (2019). 2005-2010 graduation outcomes - by borough. \url{https://data.cityofnewyork.us/Education/2005-2010-Graduation-Outcomes-By-Borough/avir-tzek}.
 
 \leavevmode\hypertarget{ref-R-base}{}%
 R Core Team. (2020). \emph{R: A language and environment for statistical computing}. Vienna, Austria: R Foundation for Statistical Computing. Retrieved from \url{https://www.R-project.org/}
